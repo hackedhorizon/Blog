@@ -1,5 +1,6 @@
-<div {{ $attributes->merge(['class' => '']) }}>
+<div {{ $attributes->merge(['class' => 'text-sm font-light text-lime-shadow']) }}>
     <p>{{ __('Dont have an account yet?') }}</p>
-    <a href="{{ route('register') }}"
-       wire:navigate>{{ __('Register') }}</a>
+    <a class="font-medium hover:underline text-primary-500" href="{{ route('register') }}"
+        wire:navigate>{{ __('Register') }}
+    </a>
 </div>

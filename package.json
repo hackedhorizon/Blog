@@ -6,11 +6,17 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "autoprefixer": "^10.4.17",
+        "autoprefixer": "^10.4.19",
         "axios": "^1.6.4",
+        "daisyui": "^4.10.1",
+        "flowbite": "^2.3.0",
         "laravel-vite-plugin": "^1.0.0",
-        "postcss": "^8.4.33",
-        "tailwindcss": "^3.4.1",
+        "postcss": "^8.4.38",
+        "tailwindcss": "^3.4.3",
         "vite": "^5.0.13"
+    },
+    "dependencies": {
+        "gsap": "^3.12.5",
+        "locomotive-scroll": "^5.0.0-beta.11"
     }
 }

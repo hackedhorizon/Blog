@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: "Hind Vadodara Regular";
+        src: url(/resources/fonts/Hind.ttf);
+    }
+
+    @font-face {
+        font-family: "Wallpoet Regular";
+        src: url(/resources/fonts/Wallpoet.ttf);
+    }
+}
+
+html.lenis {
+    height: auto;
+}
+.lenis.lenis-smooth {
+    scroll-behavior: auto;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+html[data-scroll-orientation="horizontal"] {
+    body {
+        width: fit-content;
+    }
+    [data-scroll-container] {
+        display: flex;
+    }
+}

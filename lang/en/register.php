@@ -17,4 +17,5 @@ return [
     'and' => 'and',
     'terms_of_service' => 'Terms of Service',
     'apply' => 'apply',
+    'create an account' => 'Create one!',
 ];

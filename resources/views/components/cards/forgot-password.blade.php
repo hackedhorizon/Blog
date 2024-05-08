@@ -1,4 +1,3 @@
-<div {{ $attributes->merge(['class' => '']) }}>
-    <p>{{ __('Forgot your password?') }}</p>
-    <a href="{{ route('password.request') }}">{{ __('Reset Password') }}</a>
-</div>
+<a {{ $attributes->merge(['class' => 'text-sm font-medium hover:underline text-primary-500']) }}
+    href="{{ route('password.request') }}" wire:navigate='true'>{{ __('Forgot your password?') }}
+</a>

@@ -17,4 +17,5 @@ return [
     'and' => 'és',
     'terms_of_service' => 'a Felhasználási feltételek',
     'apply' => 'alkalmazandók',
+    'create an account' => 'Hozz létre egyet!',
 ];
