@@ -1,5 +1,5 @@
-[![codecov](https://codecov.io/github/hackedhorizon/Laravel-Livewire-Starterkit/graph/badge.svg?token=F1JJKTA809)](https://codecov.io/github/hackedhorizon/Laravel-Livewire-Starterkit)
-[![Tests](https://github.com/hackedhorizon/Laravel-Livewire-Starterkit/actions/workflows/tests.yml/badge.svg)](https://github.com/hackedhorizon/Laravel-Livewire-Starterkit/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/hackedhorizon/Blog/graph/badge.svg?token=FNCW35BAK1)](https://codecov.io/gh/hackedhorizon/Blog)
+[![Tests](https://github.com/hackedhorizon/Blog/actions/workflows/tests.yml/badge.svg)](https://github.com/hackedhorizon/Blog/actions/workflows/tests.yml)
 [![code style](https://github.com/hackedhorizon/Laravel-Livewire-Starterkit/actions/workflows/php-code-style.yml/badge.svg)](https://github.com/hackedhorizon/Laravel-Livewire-Starterkit/actions/workflows/php-code-style.yml)
 [![Psalm Vulnerability Analysis](https://github.com/hackedhorizon/Laravel-Livewire-Starterkit/actions/workflows/security-scanner.yml/badge.svg)](https://github.com/hackedhorizon/Laravel-Livewire-Starterkit/actions/workflows/security-scanner.yml)
 
