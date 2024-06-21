@@ -8,7 +8,8 @@ class Post extends Component
 {
     public bool $myModal1 = false;
 
-    public function updatedMyModal1(){
+    public function updatedMyModal1()
+    {
         dd($this->myModal1);
     }
 
