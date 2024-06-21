@@ -1,18 +1,16 @@
 <div @click.away="open = false; searchOpen = false">
 
-    <nav class="fixed top-0 z-50 w-full mx-auto border-b shadow-xl bg-surface-200 border-primary-500"
-        @click.away="open = false; searchOpen = false">
+    <nav class="z-50 mx-auto max-w-screen-2xl" @click.away="open = false; searchOpen = false">
 
-        <div class="px-4 mx-auto md:px-6 lg:px-8">
+        <div class="px-4 mx-auto my-2 md:px-4 lg:px-8">
 
-            <div class="flex items-center justify-between h-16 ml-auto">
+            <div
+                class="flex items-center justify-between ml-auto md:flex-col md:justify-center lg:flex-row lg:justify-between min-h-20">
 
-                <div class="flex flex-row justify-between w-full gap-5 md:w-auto">
+                <div class="md:py-2 lg:py-0">
                     {{-- Logo --}}
                     <x-navigation.logo />
 
-                    {{-- Search icon button --}}
-                    <x-navigation.search-icon />
                 </div>
 
                 {{-- Desktop view: menu --}}

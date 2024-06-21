@@ -1,7 +1,7 @@
-<div class="flex-shrink-0">
-    <a href="{{ route('home') }}" wire:navigate class="text-lg font-bold tracking-widest font-primary text-lime-main">
+<div class="flex-shrink-0 md:text-center lg:text-left">
+    <a href="{{ route('home') }}" wire:navigate class="font-bold tracking-widest font-primary text-lime-main ">
         CyberNexus
     </a>
     <br>
-    <span class="text-sm ">Development & Security</span>
+    <span>Development & Security</span>
 </div>

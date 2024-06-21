@@ -1,4 +1,4 @@
-<div class="text-xs text-center">
+<div class="text-xs text-center md:text-base">
     <p>{{ __('register.recaptcha_protected') }}</p>
 
     <b>

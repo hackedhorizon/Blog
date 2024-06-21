@@ -6,11 +6,6 @@
 <ul {{ $attributes->merge(['class' => '' . $class_ul]) }}>
 
     @auth
-
-        <li>
-            <strong>{{ __('register.welcome') }}, {{ Auth::user()->username }}!</strong>
-        </li>
-
         <li>
             <a {{ $attributes->merge(['class' => '' . $class_href]) }} href="{{ route('home') }}"
                 wire:navigate>{{ __('Home') }}

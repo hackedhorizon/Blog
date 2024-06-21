@@ -1,4 +1,4 @@
-<div class="btm-nav bg-surface-300 md:hidden">
+<div class="z-50 btm-nav bg-surface-300 md:hidden">
     {{-- User logged in --}}
     @auth
 

@@ -8,6 +8,9 @@ export default {
 	],
     theme: {
       extend: {
+        backgroundImage: {
+            'meteorites' : 'url(/resources/images/svg/meteorites.svg)'
+        },
         fontFamily: {
             'primary': ['Wallpoet Regular'],
             'secondary': ['Hind Vadodara Regular'],
@@ -19,11 +22,11 @@ export default {
             'primary-400': '#8dffd4',
             'primary-500': '#a3ffdb',
             'primary-600': '#b8ffe2',
-            'surface-100': '#121212',
-            'surface-200': '#282828',
-            'surface-300': '#3f3f3f',
-            'surface-400': '#575757',
-            'surface-500': '#717171',
+            'surface-100': '#111722',
+            'surface-200': '#081426',
+            'surface-300': '#0b1d32',
+            'surface-400': '#0c283c',
+            'surface-500': '#10364c',
             'surface-600': '#8b8b8b',
             'lime-main' : '#a3e635',
             'lime-shadow': '#d3fff4ad'
@@ -35,11 +38,11 @@ export default {
             'primary-400': '#8dffd4',
             'primary-500': '#a3ffdb',
             'primary-600': '#b8ffe2',
-            'surface-100': '#121212',
-            'surface-200': '#282828',
-            'surface-300': '#3f3f3f',
-            'surface-400': '#575757',
-            'surface-500': '#717171',
+            'surface-100': '#111722',
+            'surface-200': '#081426',
+            'surface-300': '#0b1d32',
+            'surface-400': '#0c283c',
+            'surface-500': '#10364c',
             'surface-600': '#8b8b8b',
             'lime-main': '#a3e635',
             'lime-shadow': '#d3fff4ad'

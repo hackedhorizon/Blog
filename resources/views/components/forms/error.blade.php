@@ -1,4 +1,4 @@
-<div {{ $attributes->merge(['class' => 'text-red-500']) }}>
+<div {{ $attributes->merge(['class' => 'text-red-500 text-base']) }}>
     @error($attribute)
 
         @if ($attribute === 'login' || $attribute === 'register')

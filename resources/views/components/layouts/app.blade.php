@@ -11,7 +11,7 @@
 </head>
 
 <body x-data="{ open: false, searchOpen: false }"
-    class="flex flex-col min-h-screen font-semibold tracking-widest bg-surface-100 text-primary-500 font-secondary">
+    class="flex flex-col overflow-x-hidden text-base font-semibold tracking-widest transition-all duration-300 bg-scroll bg-center bg-cover bg-surface-500 md:bg-meteorites md:text-xl lg:text-2xl text-primary-500 font-secondary">
 
     {{-- Email notification --}}
     <x-notifications.verify-email-notification />
@@ -24,18 +24,24 @@
 
     <x-cards.session-message-failed />
 
-    {{-- Blurred overlay --}}
-    <div x-bind:class="{ 'z-40 filter bg-black/50 blur-sm top-0 left-0 w-full h-full pointer-events-none ': open || searchOpen }"
-        class="transition-all duration-700 ease-in-out">
+    {{-- Blurred overlay
+    <div x-bind:class="{ 'z-40 filter bg-black/10 blur-sm top-0 left-0 w-full h-full pointer-events-none ': open || searchOpen }"
+        class="transition-all duration-700 ease-in-out"> --}}
 
-        {{-- Main content --}}
-        <main class="flex items-center justify-center min-h-screen md:pt-16">
-            {{ $slot }}
-        </main>
+    {{-- Main content --}}
+    <main class="flex items-center justify-center min-h-[calc(100vh-155px)] md:min-h-[calc(100vh-90px)] text-lime-main ">
 
-        <x-navigation.footer />
+        {{-- <div class="absolute top-0 w-full h-screen backdrop-blur-sm">
 
-    </div>
+            </div> --}}
+
+        {{ $slot }}
+
+    </main>
+
+    <x-navigation.footer />
+
+    {{-- </div> --}}
 
 </body>
 
