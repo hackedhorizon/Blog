@@ -1,7 +1,6 @@
 <div {{ $attributes->merge(['class' => 'text-red-500 text-base']) }}>
     @error($attribute)
-
-        @if ($attribute === 'login' || $attribute === 'register')
+        @if ($attribute === 'login.throttled' || $attribute === 'register.throttled')
             @php
                 // Define a regular expression pattern to match any sequence of digits
                 $pattern = '/(\d+)/';
@@ -19,13 +18,10 @@
                     }
                 }, 1000);
             }" x-show="showMessage">
-                <p>
-                    <!-- Output the error message with the dynamic countdown timer -->
-                    {!! preg_replace($pattern, '<span id="counterElement" x-text="count"></span>', $message, 1) !!}
-                </p>
+                <!-- Output the error message with the dynamic countdown timer -->
+                <p>{!! preg_replace($pattern, '<span id="counterElement" x-text="count"></span>', $message, 1) !!}</p>
             @else
                 <p>{{ $message }}</p>
         @endif
-
     @enderror
 </div>

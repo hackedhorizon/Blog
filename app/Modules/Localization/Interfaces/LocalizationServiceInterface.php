@@ -31,4 +31,9 @@ interface LocalizationServiceInterface
      * @param  string  $locale  The locale to set
      */
     public function setAppLocale(string $locale): void;
+
+    /**
+     * Translate text to a target language.
+     */
+    public function translate(string $text, string $from, array $to): string;
 }

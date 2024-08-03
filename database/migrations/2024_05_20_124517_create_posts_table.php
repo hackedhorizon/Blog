@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
-            $table->string('author');
             $table->string('title');
             $table->text('body');
             $table->boolean('is_published')->default(false);
+            $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });
     }

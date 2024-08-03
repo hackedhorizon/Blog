@@ -10,8 +10,8 @@
     @vite('resources/js/app.js')
 </head>
 
-<body x-data="{ open: false, searchOpen: false }"
-    class="flex flex-col overflow-x-hidden text-base font-semibold tracking-widest transition-all duration-300 bg-scroll bg-center bg-cover bg-surface-500 md:bg-meteorites md:text-xl lg:text-2xl text-primary-500 font-secondary">
+<body data-scroll-container x-data="{ open: false, searchOpen: false }"
+    class="flex flex-col overflow-x-hidden transition-all duration-300 bg-center bg-default md:text-xl lg:text-2xl text-primary-500">
 
     {{-- Email notification --}}
     <x-notifications.verify-email-notification />
@@ -24,25 +24,12 @@
 
     <x-cards.session-message-failed />
 
-    {{-- Blurred overlay
-    <div x-bind:class="{ 'z-40 filter bg-black/10 blur-sm top-0 left-0 w-full h-full pointer-events-none ': open || searchOpen }"
-        class="transition-all duration-700 ease-in-out"> --}}
-
     {{-- Main content --}}
-    <main class="flex items-center justify-center min-h-[calc(100vh-155px)] md:min-h-[calc(100vh-90px)] text-lime-main ">
-
-        {{-- <div class="absolute top-0 w-full h-screen backdrop-blur-sm">
-
-            </div> --}}
-
+    <main class="flex items-center justify-center min-h-[calc(100vh-155px)] md:min-h-[calc(100vh-90px)] text-lime-main">
         {{ $slot }}
-
     </main>
 
     <x-navigation.footer />
-
-    {{-- </div> --}}
-
 </body>
 
 </html>

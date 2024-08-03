@@ -20,7 +20,7 @@
             @endphp
 
             {{-- Include reusable input component for each form field --}}
-            <div class="form-control">
+            <div class="form-control" wire:key='{{ $index }}'>
                 <label for="{{ $property }}" class="label">
                     <span class="leading-8 text-primary-500">{{ ucfirst(__($translationKey)) }}</span>
                 </label>
@@ -47,8 +47,9 @@
         {{-- Register card with link --}}
         <x-cards.register />
 
-        {{-- Display login error message if any --}}
+        {{-- Display login error messages --}}
         <x-forms.error attribute="login" />
+        <x-forms.error attribute="login.throttled" />
     </form>
 
 </x-cards.form-card-container>

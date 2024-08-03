@@ -1,3 +1,4 @@
 <div>
-    @livewire('posts.post')
+    <livewire:posts.latest lazy />
+    <livewire:posts.featured lazy />
 </div>

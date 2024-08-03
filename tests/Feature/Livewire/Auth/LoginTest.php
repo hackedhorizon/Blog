@@ -203,7 +203,7 @@ class LoginTest extends TestCase
             ->call('login') // Additional attempt
             ->call('login') // Additional attempt
             ->call('login') // Additional attempt
-            ->assertHasErrors('login');
+            ->assertHasErrors('login.throttled');
     }
 
     /**

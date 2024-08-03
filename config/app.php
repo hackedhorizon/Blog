@@ -95,7 +95,7 @@ return [
     | modify it here as well. Do not forget to enable
     | localization in the 'config/services.php' file.
     | If localization is not enabled, the application will
-    | be english automatically.
+    | be english by default.
     |
     */
 
@@ -186,6 +186,7 @@ return [
         App\Providers\RecaptchaServiceProvider::class,
         App\Providers\EmailVerificationServiceProvider::class,
         App\Providers\LocalizationServiceProvider::class,
+        App\Providers\ReadPostServiceProvider::class,
     ])->toArray(),
 
     /*

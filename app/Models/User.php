@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\RoleName;
+use App\Notifications\VerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,10 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use CanResetPassword;
-    use HasApiTokens;
-    use HasFactory;
-    use Notifiable;
+    use CanResetPassword, HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -115,5 +113,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasPermission(string $permission): bool
     {
         return in_array($permission, $this->permissions(), true);
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
     }
 }

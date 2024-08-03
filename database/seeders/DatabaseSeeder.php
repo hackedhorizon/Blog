@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FailedLoginAttemptSeeder::class,
             CategoryPostSeeder::class,
+            PostTranslationSeeder::class,
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Modules\Localization\Services;
 
+use Alessiodh\Deepltranslator\Traits\DeepltranslatorTrait;
 use App\Modules\Localization\Interfaces\LocalizationServiceInterface;
 use App\Modules\UserManagement\Services\ReadUserService;
 use App\Modules\UserManagement\Services\WriteUserService;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Config;
 
 class LocalizationService implements LocalizationServiceInterface
 {
+    use DeepltranslatorTrait;
+
     private WriteUserService $writeUserService;
 
     private ReadUserService $readUserService;
@@ -55,5 +58,16 @@ class LocalizationService implements LocalizationServiceInterface
     {
         app()->setLocale($locale);
         session()->put('locale', $locale);
+    }
+
+    public function translate($text, $from, $to): string
+    {
+        try {
+            $translated = $this->translateString($text, $from, $to);
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+
+        return $translated;
     }
 }

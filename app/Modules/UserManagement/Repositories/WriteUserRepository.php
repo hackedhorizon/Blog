@@ -45,12 +45,12 @@ class WriteUserRepository implements WriteUserRepositoryInterface
     {
         $user = User::find($id);
 
-        if ($user) {
-            $user->delete();
-
-            return true;
+        if (! $user) {
+            return false; // No such user, so just return false.
         }
 
-        return false;
+        $user->delete();
+
+        return true;
     }
 }

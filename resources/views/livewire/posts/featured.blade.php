@@ -1,3 +1,1 @@
-<div>
-    {{-- The whole world belongs to you. --}}
-</div>
+<x-cards.article-card-container :pagination="true" :title="__('Featured')" :exploreMoreText="__('Explore More')" :posts="$this->posts" />

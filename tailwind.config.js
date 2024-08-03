@@ -8,12 +8,8 @@ export default {
 	],
     theme: {
       extend: {
-        backgroundImage: {
-            'meteorites' : 'url(/resources/images/svg/meteorites.svg)'
-        },
         fontFamily: {
-            'primary': ['Wallpoet Regular'],
-            'secondary': ['Hind Vadodara Regular'],
+            'primary': ['Roboto Mono'],
         },
         backgroundColor: {
             'primary-100': '#00ffbf',
@@ -28,7 +24,8 @@ export default {
             'surface-400': '#0c283c',
             'surface-500': '#10364c',
             'surface-600': '#8b8b8b',
-            'lime-main' : '#a3e635',
+            'default'    : '#040b15',
+            'lime-main'  : '#a3e635',
             'lime-shadow': '#d3fff4ad'
         },
         colors: {
@@ -54,6 +51,6 @@ export default {
     },
     plugins: [
 		require('flowbite/plugin'),
-		require("daisyui")
+		require("daisyui"),
 	],
   }

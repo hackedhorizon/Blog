@@ -23,7 +23,6 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-
         $shouldHaveLocalization = config('services.should_have_localization');
 
         if ($shouldHaveLocalization) {

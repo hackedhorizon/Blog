@@ -1,6 +1,6 @@
 @auth
     @if (config('services.should_verify_email') && !Auth::user()->hasVerifiedEmail())
-        <div x-data="{ open: true }" x-show="open" class="relative p-4 mt-16 border-l-4 border-lime-main bg-surface-300">
+        <div x-data="{ open: true }" x-show="open" class="relative p-4 border-l-4 border-lime-main bg-surface-300">
             <div class="flex items-center justify-between">
                 <span class="flex flex-row gap-1 text-lg font-bold">
                     @svg('eos-email', ['class' => 'w-5'])

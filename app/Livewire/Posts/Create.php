@@ -4,10 +4,10 @@ namespace App\Livewire\Posts;
 
 use Livewire\Component;
 
-class CreatePost extends Component
+class Create extends Component
 {
     public function render()
     {
-        return view('livewire.posts.create-post');
+        return view('livewire.posts.create');
     }
 }

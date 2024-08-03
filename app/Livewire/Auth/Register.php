@@ -89,7 +89,7 @@ class Register extends Component
             ->setDecayOfSeconds(60)
             ->setCallerMethod('register')
             ->setAllowedNumberOfAttempts(10)
-            ->setErrorMessageAttribute('register');
+            ->setErrorMessageAttribute('register.throttled');
     }
 
     private function configureRecaptchaService(RecaptchaService $recaptchaService)
@@ -113,7 +113,6 @@ class Register extends Component
 
         // Handle creation
         $this->handleSuccessfulRegistration($user);
-
     }
 
     private function validateRecaptcha()
@@ -138,8 +137,6 @@ class Register extends Component
         // If the email verification enabled, notify the user from the sent verification email
         if ($this->emailVerificationServiceEnabled) {
             session()->flash('message_success', __('register.verification_email_sent'));
-
-            return $this->redirect(route('verification.notice'), navigate: true);
         }
 
         // Redirect user to the home page

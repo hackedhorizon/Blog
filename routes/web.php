@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Middleware\SetLocale;
 use App\Livewire\Home;
+use App\Livewire\Posts\Show;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', Home::class)->name('home')->middleware(SetLocale::class);
+Route::middleware(['translate'])->group(function () {
+    Route::get('/', Home::class)->name('home');
+    Route::get('/posts/{id}', Show::class);
+});
 
 require __DIR__.'/auth.php';

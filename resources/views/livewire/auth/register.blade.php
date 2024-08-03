@@ -24,7 +24,7 @@
                 $translationKey = 'validation.attributes.' . $field;
             @endphp
 
-            <div class="form-control">
+            <div class="form-control" wire:key='{{ $field }}'>
                 <label for="{{ $field }}" class="label">
                     <span class="leading-8 text-primary-500">{{ ucfirst(__($translationKey)) }}</span>
                 </label>
@@ -54,8 +54,9 @@
         {{-- Login card with link --}}
         <x-cards.login />
 
-        {{-- Register error message --}}
-        <x-forms.error attribute='register' />
+        {{-- Register error messages --}}
+        <x-forms.error attribute="register" />
+        <x-forms.error attribute="register.throttled" />
 
     </form>
 </x-cards.form-card-container>

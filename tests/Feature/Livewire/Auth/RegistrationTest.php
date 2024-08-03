@@ -120,7 +120,7 @@ class RegistrationTest extends TestCase
             $registerTest->set('username', $username); // Username fetch attempt
         }
 
-        $registerTest->assertHasErrors('register'); // Ensure username fetch attempts are throttled
+        $registerTest->assertHasErrors('register.throttled'); // Ensure username fetch attempts are throttled
     }
 
     /**
@@ -145,7 +145,7 @@ class RegistrationTest extends TestCase
         }
 
         // Assert that the expected throttle message is present in the Livewire component response
-        $registerTest->assertHasErrors('register'); // Ensure registration attempts are throttled
+        $registerTest->assertHasErrors('register.throttled'); // Ensure registration attempts are throttled
     }
 
     /**
@@ -170,7 +170,7 @@ class RegistrationTest extends TestCase
             ->set('password', self::TEST_PASSWORD)
             ->call('register')
             ->assertHasNoErrors(['name', 'username', 'email', 'password'])
-            ->assertRedirect(route('verification.notice'));
+            ->assertRedirect(route('home'));
     }
 
     /**
@@ -202,7 +202,7 @@ class RegistrationTest extends TestCase
             ->set('recaptchaToken', self::TEST_RECAPTCHA_TOKEN)
             ->call('register')
             ->assertHasNoErrors(['name', 'username', 'email', 'password'])
-            ->assertRedirect(route('verification.notice'));
+            ->assertRedirect(route('home'));
 
         // Check if the user was created
         $this->assertDatabaseHas('users', [

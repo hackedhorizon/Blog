@@ -17,14 +17,14 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        $users = User::query()->pluck('id');
+        $users = User::pluck('id');
 
         return [
             'user_id' => fake()->randomElement($users),
-            'author' => fake()->name(),
             'title' => fake()->sentence(),
             'body' => fake()->paragraph(),
             'is_published' => fake()->randomElement([false, true]),
+            'is_featured' => fake()->randomElement([false, true]),
         ];
     }
 }

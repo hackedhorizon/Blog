@@ -35,19 +35,16 @@ class Login extends Component
     {
         $this->rateLimiterService = $rateLimiterService;
 
-        $this->rateLimiterService->setDecayOfSeconds(60);
-
-        $this->rateLimiterService->setCallerMethod('login');
-
-        $this->rateLimiterService->setAllowedNumberOfAttempts(3);
-
-        $this->rateLimiterService->setErrorMessageAttribute('login');
+        $this->rateLimiterService->setDecayOfSeconds(60)
+            ->setCallerMethod('login')
+            ->setAllowedNumberOfAttempts(3)
+            ->setErrorMessageAttribute('login.throttled');
     }
 
     public function login(LoginService $loginService)
     {
         // Check for too many failed login attempts
-        $this->rateLimiterService->checkTooManyFailedAttempts(60, 'login');
+        $this->rateLimiterService->checkTooManyFailedAttempts();
 
         // Validate form fields
         $this->validate();

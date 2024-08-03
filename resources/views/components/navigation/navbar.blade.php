@@ -1,6 +1,6 @@
 <div @click.away="open = false; searchOpen = false">
 
-    <nav class="z-50 mx-auto max-w-screen-2xl" @click.away="open = false; searchOpen = false">
+    <nav class="z-50 max-w-screen-xl mx-auto" @click.away="open = false; searchOpen = false">
 
         <div class="px-4 mx-auto my-2 md:px-4 lg:px-8">
 

@@ -17,6 +17,7 @@ class PermissionRoleSeeder extends Seeder
     {
         $this->createPermissions();
         $this->createAdminRole();
+        $this->createUserRole();
     }
 
     protected function createPermissions(): void
@@ -50,11 +51,21 @@ class PermissionRoleSeeder extends Seeder
         // Query permissions from the database
         $permissions = Permission::query()
             ->where('name', 'like', 'admin.%')
-            ->orWhere('name', 'like', 'user.%')
             ->pluck('id');
 
         // Create the admin role with the permissions
         $this->createRole(RoleName::ADMIN, $permissions);
+    }
+
+    protected function createUserRole(): void
+    {
+        // Query permissions from the database
+        $permissions = Permission::query()
+            ->where('name', 'like', 'user.%')
+            ->pluck('id');
+
+        // Create the user role with the permissions
+        $this->createRole(RoleName::USER, $permissions);
     }
 
     protected function createRole(RoleName $role, Collection $permissions): void
