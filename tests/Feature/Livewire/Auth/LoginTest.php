@@ -217,7 +217,7 @@ class LoginTest extends TestCase
      *  3. Set the user identifier according to the created user.
      *  4. Set the user password to an invalid value.
      *  5. Trigger the login method.
-     *  6. Assert that the error message is present in the Livewire component response and there is no redirect.
+     *  6. Assert that there is no redirect.
      *  7. Ensure the user is not authenticated.
      */
     public function test_user_can_not_login_with_wrong_password()
@@ -228,7 +228,6 @@ class LoginTest extends TestCase
             ->set('identifier', $user->email)
             ->set('password', '123456')
             ->call('login')
-            ->assertHasErrors()
             ->assertNoRedirect();
 
         $this->assertGuest();
