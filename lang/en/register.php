@@ -5,6 +5,7 @@ declare(strict_types=1);
 return [
     'welcome' => 'Welcome',
     'success' => 'Registration successful!',
+    'success_description' => 'You successfully created a new account!',
     'verification_email_sent' => 'Verification email sent successfully!',
     'thanks_for_registering' => 'Thanks for signing up!',
     'email_verified' => 'Email verified successfully!',

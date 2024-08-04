@@ -5,6 +5,7 @@ declare(strict_types=1);
 return [
     'welcome' => 'Üdv',
     'success' => 'Sikeres regisztráció!',
+    'success_description' => 'Sikeresen létrehoztál egy új felhasználót! Jó böngészést!:)',
     'verification_email_sent' => 'Visszaigazoló e-mail sikeresen elküldve!',
     'thanks_for_registering' => 'Köszönjük a regisztrációt!',
     'email_verified' => 'E-mail cím sikeresen visszaigazolva!',

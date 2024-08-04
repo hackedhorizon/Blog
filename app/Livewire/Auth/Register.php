@@ -8,9 +8,12 @@ use App\Modules\Registration\Services\RegistrationService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class Register extends Component
 {
+    use Toast;
+
     #[Validate('required|string|max:50')]
     public string $name = '';
 
@@ -42,6 +45,10 @@ class Register extends Component
 
     public function mount()
     {
+        // If user already logged in, redirect to home page.
+        if (Auth::check()) {
+            return $this->redirect(route('home'), navigate: true);
+        }
         $this->pageTitle = __('Register');
     }
 
@@ -125,9 +132,6 @@ class Register extends Component
 
     private function handleSuccessfulRegistration($user)
     {
-        // Add success message to the flash
-        session()->flash('message_success', __('register.success'));
-
         // Clear rate limiter
         $this->rateLimiterService->clearLimiter();
 
@@ -140,6 +144,10 @@ class Register extends Component
         }
 
         // Redirect user to the home page
-        return $this->redirect(route('home'), navigate: true);
+        return $this->success(
+            title: __('register.success'),
+            description: __('register.success_description'),
+            redirectTo: '/'
+        );
     }
 }

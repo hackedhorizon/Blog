@@ -4,11 +4,15 @@ namespace App\Livewire\Auth;
 
 use App\Modules\Authentication\Services\LoginService;
 use App\Modules\RateLimiter\Services\RateLimiterService;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class Login extends Component
 {
+    use Toast;
+
     #[Validate('required|string|max:50')]
     public string $identifier = '';
 
@@ -28,6 +32,11 @@ class Login extends Component
 
     public function mount()
     {
+        // If user already logged in, redirect to home page.
+        if (Auth::check()) {
+            return $this->redirect(route('home'), navigate: true);
+        }
+
         $this->pageTitle = __('Login');
     }
 
@@ -56,10 +65,16 @@ class Login extends Component
             $this->rateLimiterService->clearLimiter();
 
             // Redirect user to the main page
-            return $this->redirect(route('home'), navigate: true);
+            return $this->success(
+                title: __('auth.success'),
+                description: __('auth.success_description'),
+                redirectTo: '/'
+            );
         }
 
         // Authentication failed
-        $this->addError('login', __('auth.failed'));
+        $this->error(
+            title: __('auth.failed'),
+        );
     }
 }

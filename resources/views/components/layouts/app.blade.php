@@ -13,16 +13,14 @@
 <body data-scroll-container x-data="{ open: false, searchOpen: false }"
     class="flex flex-col overflow-x-hidden transition-all duration-300 bg-center bg-default md:text-xl lg:text-2xl text-primary-500">
 
+    {{-- Toast messages --}}
+    <x-toast />
+
     {{-- Email notification --}}
     <x-notifications.verify-email-notification />
 
     {{-- Navbar --}}
     <x-navigation.navbar />
-
-    {{-- Session messages --}}
-    <x-cards.session-message-success />
-
-    <x-cards.session-message-failed />
 
     {{-- Main content --}}
     <main class="flex items-center justify-center min-h-[calc(100vh-155px)] md:min-h-[calc(100vh-90px)] text-lime-main">
