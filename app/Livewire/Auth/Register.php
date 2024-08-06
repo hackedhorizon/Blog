@@ -148,7 +148,7 @@ class Register extends Component
             title: __('register.success'),
             description: __('register.success_description'),
             icon: 'o-check-circle',
-            redirectTo: '/'
+            redirectTo: route('home')
         );
     }
 }
