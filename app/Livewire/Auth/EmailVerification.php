@@ -6,9 +6,12 @@ use App\Modules\Registration\Services\EmailVerificationService;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class EmailVerification extends Component
 {
+    use Toast;
+
     public function render()
     {
         return view('livewire.auth.email-verification');
@@ -42,10 +45,17 @@ class EmailVerification extends Component
         $emailVerificationService->sendVerificationEmail();
 
         // Add flash message to notify the user
-        session()->flash('message_success', __('register.verification_email_sent'));
+        $this->success(
+            title: __('register.verification_email_sent'),
+            redirectTo: route('verification.notice')
+        );
 
-        // Refresh the page
-        return $this->redirect(route('verification.notice'), navigate: true);
+        session()->flash('mary.toast.type', 'success');
+
+        // session()->flash('message_success', __('register.verification_email_sent'));
+
+        // // Refresh the page
+        // return $this->redirect(route('verification.notice'), navigate: true);
     }
 
     // Verify the email after user clicked on the email
@@ -62,10 +72,17 @@ class EmailVerification extends Component
         // Success: Mark the email as verified and notify the user
         event(new Verified(Auth::user()));
 
-        // Notify the user
-        session()->flash('message_success', __('register.email_verified'));
+        session()->flash('mary.toast.type', 'success');
 
-        // Redirect to the home page
-        return redirect(route('home'));
+        $this->success(
+            title: __('register.email_verified'),
+            redirectTo: route('home')
+        );
+
+        // // Notify the user
+        // session()->flash('message_success', __('register.email_verified'));
+
+        // // Redirect to the home page
+        // return redirect(route('home'));
     }
 }
