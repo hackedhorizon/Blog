@@ -17,7 +17,7 @@ class ResetPasswordService implements ResetPasswordServiceInterface
 
     private string $token;
 
-    public function __construct(){}
+    public function __construct() {}
 
     public function setCredentials(array $credentials): void
     {
