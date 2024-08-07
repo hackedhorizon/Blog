@@ -51,11 +51,6 @@ class EmailVerification extends Component
         );
 
         session()->flash('mary.toast.type', 'success');
-
-        // session()->flash('message_success', __('register.verification_email_sent'));
-
-        // // Refresh the page
-        // return $this->redirect(route('verification.notice'), navigate: true);
     }
 
     // Verify the email after user clicked on the email
@@ -78,11 +73,5 @@ class EmailVerification extends Component
             title: __('register.email_verified'),
             redirectTo: route('home')
         );
-
-        // // Notify the user
-        // session()->flash('message_success', __('register.email_verified'));
-
-        // // Redirect to the home page
-        // return redirect(route('home'));
     }
 }
