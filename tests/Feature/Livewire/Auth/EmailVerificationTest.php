@@ -4,9 +4,11 @@ namespace Tests\Feature\Livewire\Auth;
 
 use App\Livewire\Auth\EmailVerification;
 use App\Models\User;
+use App\Notifications\VerifyEmail;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -56,10 +58,17 @@ class EmailVerificationTest extends TestCase
             'email_verified_at' => null,
         ]);
 
+        Notification::fake();  // Ensure no actual emails are sent
+
         Livewire::actingAs($user)
             ->test(EmailVerification::class)
             ->call('resendEmailVerification')
             ->assertRedirect(route('verification.notice'));
+
+        Notification::assertSentTo(
+            $user,
+            VerifyEmail::class
+        );
 
         $sessionData = session()->all();
 

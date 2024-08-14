@@ -5,6 +5,7 @@ namespace App\Modules\Registration\Services;
 use App\Models\User;
 use App\Modules\Registration\Interfaces\RegistrationServiceInterface;
 use App\Modules\UserManagement\Services\WriteUserService;
+use App\Notifications\SuccessfulRegistrationNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,9 +29,10 @@ class RegistrationService implements RegistrationServiceInterface
         // Create a new user with the provided data
         $user = $this->userService->createUser($name, $username, $email, $hashedPassword);
 
-        // Dispatch a successful registration event -> automatically sends out an email verification link to the user
+        // Send the verification email to the user and create a notification in the database
         if (config('services.should_verify_email')) {
             event(new Registered($user));
+            $user->notify(new SuccessfulRegistrationNotification());
         }
 
         // Return the registered user object

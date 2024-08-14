@@ -20,10 +20,10 @@
                     <button class="btn btn-neutral text-primary-500 bg-surface-300 hover:bg-surface-400"
                         type="submit">{{ __('Send') }}</button>
                 </div>
-            </form>
 
-            {{-- Reset password error message --}}
-            <x-forms.error attribute='reset-password' />
+                {{-- Reset password error message --}}
+                <x-forms.error attribute='reset-password' />
+            </form>
         </div>
     </div>
 </section>

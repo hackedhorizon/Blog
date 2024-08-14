@@ -3,9 +3,13 @@
 namespace Tests\Feature\Livewire\Auth;
 
 use App\Livewire\Auth\Register;
+use App\Models\User;
+use App\Notifications\SuccessfulRegistrationNotification;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -291,5 +295,32 @@ class RegistrationTest extends TestCase
 
         // Assert that the user is logged in
         $this->assertAuthenticated();
+    }
+
+    public function test_event_and_notification_on_successful_registration()
+    {
+        config(['services.should_verify_email' => true]);
+        config(['services.should_have_recaptcha' => false]);
+
+        Event::fake();
+        Notification::fake();
+
+        Livewire::test(Register::class)
+            ->set('name', self::TEST_NAME)
+            ->set('username', self::TEST_USERNAME)
+            ->set('email', self::TEST_EMAIL)
+            ->set('password', self::TEST_PASSWORD)
+            ->call('register')
+            ->assertHasNoErrors(['name', 'username', 'email', 'password'])
+            ->assertRedirect(route('home'));
+
+        // Assert that the Registered event was dispatched
+        Event::assertDispatched(Registered::class);
+
+        // Assert that the SuccessfulRegistrationNotification was sent
+        Notification::assertSentTo(
+            User::where('email', self::TEST_EMAIL)->first(), // Fetch user based on email
+            SuccessfulRegistrationNotification::class
+        );
     }
 }
