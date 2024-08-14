@@ -33,7 +33,7 @@ class DeleteUnverifiedUsers extends Command
             $this->info('Forcing deletion of all unverified users...');
             $unverifiedUsers = User::whereNull('email_verified_at')->get();
         } else {
-            $this->info('Deleting unverified users who have not verified their email within the last ' . config('auth.verification.expire', 7) . ' days...');
+            $this->info('Deleting unverified users who have not verified their email within the last '.config('auth.verification.expire', 7).' days...');
             $unverifiedUsers = User::whereNull('email_verified_at')
                 ->where('created_at', '<=', $expirationDate)
                 ->get();
@@ -41,17 +41,18 @@ class DeleteUnverifiedUsers extends Command
 
         if ($unverifiedUsers->isEmpty()) {
             $this->info('No unverified users found for deletion.');
+
             return;
         }
 
-        $this->info('Found ' . $unverifiedUsers->count() . ' unverified users.');
+        $this->info('Found '.$unverifiedUsers->count().' unverified users.');
 
         foreach ($unverifiedUsers as $user) {
-            $this->info('Deleting user: ID: ' . $user->id . ', Created At: ' . $user->created_at);
+            $this->info('Deleting user: ID: '.$user->id.', Created At: '.$user->created_at);
             $user->delete();
         }
 
-        $this->info(count($unverifiedUsers) . ' unverified users deleted successfully.');
+        $this->info(count($unverifiedUsers).' unverified users deleted successfully.');
         $this->info('Command execution finished.');
     }
 }
