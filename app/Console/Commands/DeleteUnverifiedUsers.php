@@ -12,7 +12,7 @@ class DeleteUnverifiedUsers extends Command
      *
      * @var string
      */
-    protected $signature = 'app:delete-unverified-users';
+    protected $signature = 'app:delete-unverified-users {--force : Force delete all unverified users}';
 
     /**
      * The console command description.
@@ -26,17 +26,32 @@ class DeleteUnverifiedUsers extends Command
      */
     public function handle()
     {
-
+        $forceDelete = $this->option('force');
         $expirationDate = now()->subDays(config('auth.verification.expire', 7));
 
-        $unverifiedUsers = User::whereNull('email_verified_at')
-            ->where('created_at', '<=', $expirationDate)
-            ->get();
+        if ($forceDelete) {
+            $this->info('Forcing deletion of all unverified users...');
+            $unverifiedUsers = User::whereNull('email_verified_at')->get();
+        } else {
+            $this->info('Deleting unverified users who have not verified their email within the last ' . config('auth.verification.expire', 7) . ' days...');
+            $unverifiedUsers = User::whereNull('email_verified_at')
+                ->where('created_at', '<=', $expirationDate)
+                ->get();
+        }
+
+        if ($unverifiedUsers->isEmpty()) {
+            $this->info('No unverified users found for deletion.');
+            return;
+        }
+
+        $this->info('Found ' . $unverifiedUsers->count() . ' unverified users.');
 
         foreach ($unverifiedUsers as $user) {
+            $this->info('Deleting user: ID: ' . $user->id . ', Created At: ' . $user->created_at);
             $user->delete();
         }
 
-        $this->info(count($unverifiedUsers).' unverified users deleted successfully.');
+        $this->info(count($unverifiedUsers) . ' unverified users deleted successfully.');
+        $this->info('Command execution finished.');
     }
 }
