@@ -18,7 +18,7 @@ class SuccessfulRegistrationNotificationTest extends TestCase
         Notification::fake();
 
         // Act: Trigger the notification
-        $user->notify(new SuccessfulRegistrationNotification());
+        $user->notify(new SuccessfulRegistrationNotification);
 
         // Assert: Verify that the notification was sent
         Notification::assertSentTo(
@@ -40,7 +40,7 @@ class SuccessfulRegistrationNotificationTest extends TestCase
         $user = User::factory()->create();
 
         // Act: Create the notification instance
-        $notification = new SuccessfulRegistrationNotification();
+        $notification = new SuccessfulRegistrationNotification;
         $data = $notification->toDatabase($user);
 
         // Assert: Verify the data structure

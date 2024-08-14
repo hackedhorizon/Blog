@@ -33,7 +33,7 @@ class VerifyEmailTest extends TestCase
 
         // Capture the notification
         NotificationFacade::fake();
-        $user->notify(new VerifyEmail());
+        $user->notify(new VerifyEmail);
 
         // Assert the notification was sent
         NotificationFacade::assertSentTo(
@@ -67,7 +67,7 @@ class VerifyEmailTest extends TestCase
         NotificationFacade::fake();
 
         // Trigger the notification
-        $user->notify(new VerifyEmail());
+        $user->notify(new VerifyEmail);
 
         // Assert the notification was sent
         NotificationFacade::assertSentTo(
@@ -102,7 +102,7 @@ class VerifyEmailTest extends TestCase
         NotificationFacade::fake();
 
         // Trigger the notification
-        $user->notify(new VerifyEmail());
+        $user->notify(new VerifyEmail);
 
         // Assert the notification was sent
         NotificationFacade::assertSentTo(

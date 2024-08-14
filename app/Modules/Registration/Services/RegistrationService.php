@@ -32,7 +32,7 @@ class RegistrationService implements RegistrationServiceInterface
         // Send the verification email to the user and create a notification in the database
         if (config('services.should_verify_email')) {
             event(new Registered($user));
-            $user->notify(new SuccessfulRegistrationNotification());
+            $user->notify(new SuccessfulRegistrationNotification);
         }
 
         // Return the registered user object
