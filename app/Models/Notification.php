@@ -14,9 +14,4 @@ class Notification extends Model
     {
         return $this->morphTo();
     }
-
-    public function translations(): HasMany
-    {
-        return $this->hasMany(NotificationTranslation::class);
-    }
 }
