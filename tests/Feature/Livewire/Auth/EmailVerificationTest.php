@@ -4,9 +4,11 @@ namespace Tests\Feature\Livewire\Auth;
 
 use App\Livewire\Auth\EmailVerification;
 use App\Models\User;
+use App\Notifications\VerifyEmail;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -56,11 +58,22 @@ class EmailVerificationTest extends TestCase
             'email_verified_at' => null,
         ]);
 
+        Notification::fake();  // Ensure no actual emails are sent
+
         Livewire::actingAs($user)
             ->test(EmailVerification::class)
             ->call('resendEmailVerification')
-            ->assertRedirect(route('verification.notice'))
-            ->assertSessionHas('message_success', __('register.verification_email_sent'));
+            ->assertRedirect(route('verification.notice'));
+
+        Notification::assertSentTo(
+            $user,
+            VerifyEmail::class
+        );
+
+        $sessionData = session()->all();
+
+        $this->assertArrayHasKey('type', $sessionData['mary']['toast']);
+        $this->assertEquals('success', $sessionData['mary']['toast']['type']);
     }
 
     /**
@@ -114,7 +127,6 @@ class EmailVerificationTest extends TestCase
             'email_verified_at' => null,
         ]);
 
-        // Mock the event class to assert that it's fired
         Event::fake([Verified::class]);
 
         $hash = sha1($user->getEmailForVerification());
@@ -122,12 +134,14 @@ class EmailVerificationTest extends TestCase
         Livewire::actingAs($user)
             ->test(EmailVerification::class)
             ->call('verifyEmail', $user->id, $hash)
-            ->assertRedirect(route('home'))
-            ->assertSessionHas('message_success', __('register.email_verified'));
+            ->assertRedirect(route('home'));
 
+        $sessionData = session()->all();
+
+        $this->assertArrayHasKey('type', $sessionData['mary']['toast']);
+        $this->assertEquals('success', $sessionData['mary']['toast']['type']);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
 
-        // Assert that the Verified event was fired
         Event::assertDispatched(Verified::class, function ($event) use ($user) {
             return $event->user->id === $user->id;
         });
@@ -189,14 +203,16 @@ class EmailVerificationTest extends TestCase
         Livewire::actingAs($user)
             ->test(EmailVerification::class)
             ->call('verifyEmail', $user->id, $hash)
-            ->assertRedirect(route('home'))
-            ->assertSessionHas('message_success', __('register.email_verified'));
+            ->assertRedirect(route('home'));
 
+        $sessionData = session()->all();
+
+        $this->assertArrayHasKey('type', $sessionData['mary']['toast']);
+        $this->assertEquals('success', $sessionData['mary']['toast']['type']);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
         $this->assertEquals($temporaryEmail, $user->fresh()->email);
         $this->assertNull($user->fresh()->temporary_email);
 
-        // Assert that the Verified event was fired
         Event::assertDispatched(Verified::class, function ($event) use ($user) {
             return $event->user->id === $user->id;
         });

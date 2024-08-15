@@ -3,11 +3,15 @@
 namespace App\Livewire\Auth;
 
 use App\Modules\Authentication\Services\ResetPasswordService;
+use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class ResetPassword extends Component
 {
+    use Toast;
+
     #[Locked]
     public $token;
 
@@ -47,8 +51,28 @@ class ResetPassword extends Component
 
         $status = $resetPasswordService->resetPassword();
 
-        $resetPasswordService->addFlashMessage($status);
+        return $this->handlePasswordResetStatus($status);
+    }
 
-        return $this->redirect(route('login'), navigate: true);
+    private function handlePasswordResetStatus($status)
+    {
+        $titles = [
+            Password::RESET_LINK_SENT => __('passwords.sent'),
+            Password::PASSWORD_RESET => __('passwords.reset'),
+            Password::INVALID_USER => __('passwords.user'),
+            Password::INVALID_TOKEN => __('passwords.token'),
+            Password::RESET_THROTTLED => __('passwords.throttled'),
+            'default' => __('passwords.error'),
+        ];
+
+        $message = $titles[$status] ?? $titles['default'];
+        $method = in_array($status, [Password::RESET_LINK_SENT, Password::PASSWORD_RESET]) ? 'success' : 'error';
+
+        session()->flash('mary.toast.type', $method);
+
+        $this->{$method}(
+            title: $message,
+            redirectTo: route('login')
+        );
     }
 }

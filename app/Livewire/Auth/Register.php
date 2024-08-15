@@ -147,7 +147,8 @@ class Register extends Component
         return $this->success(
             title: __('register.success'),
             description: __('register.success_description'),
-            redirectTo: '/'
+            icon: 'o-check-circle',
+            redirectTo: route('home')
         );
     }
 }

@@ -10,9 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class Profile extends Component
 {
+    use Toast;
+
     #[Validate('required|string|max:50')]
     public string $name = '';
 
@@ -83,6 +86,24 @@ class Profile extends Component
         $this->rateLimiterService->checkTooManyFailedAttempts();
         $this->validateProfileInformation();
 
+        $userData = $this->prepareUserData();
+
+        if ($this->requiresEmailVerification()) {
+            $userData['temporary_email'] = $this->email;
+            $this->sendEmailVerification();
+            $this->setFlashMessage('profile.profile_updated_with_verification');
+        } else {
+            $userData['email'] = $this->email;
+            $this->setFlashMessage('profile.profile_updated_without_verification');
+        }
+
+        $this->writeUserService->updateUser($this->user->id, $userData);
+
+        return $this->handleSuccessResponse();
+    }
+
+    private function prepareUserData()
+    {
         $userData = [
             'name' => $this->name,
             'username' => $this->username,
@@ -92,18 +113,32 @@ class Profile extends Component
             $userData['password'] = Hash::make($this->password);
         }
 
-        if ($this->isEmailVerificationEnabled && $this->email !== $this->user->email) {
-            $userData['temporary_email'] = $this->email;
-            $this->sendEmailVerification();
-            session()->flash('message_success', __('profile.profile_updated_with_verification'));
+        return $userData;
+    }
+
+    private function requiresEmailVerification()
+    {
+        return $this->isEmailVerificationEnabled && $this->email !== $this->user->email;
+    }
+
+    private function setFlashMessage($messageKey)
+    {
+        session()->flash('message_success', __($messageKey));
+    }
+
+    private function handleSuccessResponse()
+    {
+        if ($this->requiresEmailVerification()) {
+            return $this->success(
+                title: __('profile.profile_updated_with_verification'),
+                redirectTo: '/'
+            );
         } else {
-            $userData['email'] = $this->email;
-            session()->flash('message_success', __('profile.profile_updated_without_verification'));
+            return $this->success(
+                title: __('profile.profile_updated_without_verification'),
+                redirectTo: '/'
+            );
         }
-
-        $this->writeUserService->updateUser($this->user->id, $userData);
-
-        return $this->redirect(route('home'), navigate: true);
     }
 
     public function deleteUser()
@@ -111,7 +146,10 @@ class Profile extends Component
         $this->writeUserService->deleteUser($this->user->id);
         session()->flash('message_success', __('profile.delete_successfull'));
 
-        return $this->redirect(route('home'), navigate: true);
+        return $this->info(
+            title: __('profile.deleted_successfully'),
+            redirectTo: '/'
+        );
     }
 
     private function validateUsername()

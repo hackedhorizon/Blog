@@ -68,7 +68,7 @@ class Login extends Component
             return $this->success(
                 title: __('auth.success'),
                 description: __('auth.success_description'),
-                redirectTo: '/'
+                redirectTo: route('home')
             );
         }
 

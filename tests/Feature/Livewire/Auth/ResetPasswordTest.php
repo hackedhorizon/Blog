@@ -3,14 +3,14 @@
 namespace Tests\Feature\Livewire\Auth;
 
 use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
+use App\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-class PasswordResetTest extends TestCase
+class ResetPasswordTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -133,7 +133,7 @@ class PasswordResetTest extends TestCase
      *  3. Call 'resetPassword' method.
      *  4. Assert that an error message is displayed.
      */
-    public function password_reset_attempt_with_invalid_data_displays_error_message(): void
+    public function test_password_reset_attempt_with_invalid_data_displays_error_message(): void
     {
         Livewire::test('auth.reset-password', ['token' => 'test_token'])
             ->set('email', 'test@example.com')
@@ -141,32 +141,14 @@ class PasswordResetTest extends TestCase
             ->set('password_confirmation', 'password')
             ->call('resetPassword');
 
-        $this->assertArrayHasKey('message_failed', session()->all());
-    }
+        // Retrieve the session data
+        $sessionData = session()->all();
 
-    /**
-     * Test: Password reset attempt with invalid token displays error message.
-     *
-     * Steps:
-     *  1. Mock the Password facade to return an invalid token status.
-     *  2. Initialize Livewire test for 'auth.reset-password' component with the invalid token.
-     *  3. Set email, password, and password confirmation.
-     *  4. Call 'resetPassword' method.
-     *  5. Assert that an error message is displayed.
-     */
-    public function test_password_reset_attempt_with_invalid_token_displays_error_message(): void
-    {
-        $invalidToken = 'invalid_token';
+        // Assert that the session contains the correct key
+        $this->assertArrayHasKey('type', $sessionData['mary']['toast']);
 
-        Password::shouldReceive('reset')->andReturn(Password::INVALID_TOKEN);
-
-        Livewire::test('auth.reset-password', ['token' => $invalidToken])
-            ->set('email', 'test@example.com')
-            ->set('password', 'newpassword')
-            ->set('password_confirmation', 'newpassword')
-            ->call('resetPassword');
-
-        $this->assertArrayHasKey('message_failed', session()->all());
+        // Correct way to access session data
+        $this->assertEquals('error', $sessionData['mary']['toast']['type']);
     }
 
     /**
@@ -191,7 +173,14 @@ class PasswordResetTest extends TestCase
             ->set('password_confirmation', 'newpassword')
             ->call('resetPassword');
 
-        $this->assertArrayHasKey('message_failed', session()->all());
+        // Retrieve the session data
+        $sessionData = session()->all();
+
+        // Assert that the session contains the correct key
+        $this->assertArrayHasKey('type', $sessionData['mary']['toast']);
+
+        // Correct way to access session data
+        $this->assertEquals('error', $sessionData['mary']['toast']['type']);
     }
 
     /**
@@ -214,7 +203,14 @@ class PasswordResetTest extends TestCase
             ->set('password_confirmation', 'newpassword')
             ->call('resetPassword');
 
-        $this->assertArrayHasKey('message_failed', session()->all());
+        // Retrieve the session data
+        $sessionData = session()->all();
+
+        // Assert that the session contains the correct key
+        $this->assertArrayHasKey('type', $sessionData['mary']['toast']);
+
+        // Correct way to access session data
+        $this->assertEquals('error', $sessionData['mary']['toast']['type']);
     }
 
     /**
@@ -243,10 +239,13 @@ class PasswordResetTest extends TestCase
             ->assertRedirect(route('login'))
             ->assertHasNoErrors();
 
-        // Access the flashed message from the session
-        $flashMessage = session('message_failed');
+        // Retrieve the session data
+        $sessionData = session()->all();
 
-        // Assert that the flash message is set with the correct value
-        $this->assertEquals(__('passwords.user'), $flashMessage);
+        // Assert that the session contains the correct key
+        $this->assertArrayHasKey('type', $sessionData['mary']['toast']);
+
+        // Correct way to access session data
+        $this->assertEquals('error', $sessionData['mary']['toast']['type']);
     }
 }

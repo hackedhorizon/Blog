@@ -9,6 +9,4 @@ interface ResetPasswordServiceInterface
     public function sendResetPasswordLink(string $email): string;
 
     public function resetPassword(): string;
-
-    public function addFlashMessage(string $status): void;
 }
