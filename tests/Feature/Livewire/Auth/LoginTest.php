@@ -241,9 +241,8 @@ class LoginTest extends TestCase
      * Steps:
      *  1. Create a user via factory.
      *  2. Initialize Livewire test for the Logout component acting as the created user.
-     *  3. Trigger the logout method on the Logout component.
-     *  4. Ensure that the component has no errors and redirects to the home route.
-     *  5. Ensure the user is no longer authenticated after the logout.
+     *  3. Ensure that the component has no errors and redirects to the home route.
+     *  4. Ensure the user is no longer authenticated after the logout.
      */
     public function test_user_can_logout()
     {
@@ -251,7 +250,6 @@ class LoginTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(Logout::class)
-            ->call('logout')
             ->assertHasNoErrors()
             ->assertRedirect(Home::class);
 

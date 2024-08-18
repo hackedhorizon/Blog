@@ -41,7 +41,7 @@
 </footer>
 
 <footer
-    class="flex flex-wrap justify-around w-full p-10 mb-16 text-base border-t footer md:text-xl text-primary-500 bg-surface-200 md:mb-0 border-surface-600">
+    class="flex flex-wrap justify-around w-full p-10 text-base border-t mb-14 footer md:text-xl text-primary-500 bg-surface-200 md:mb-0 border-surface-600">
 
     <aside class="flex justify-center md:justify-start">
         <img src="{{ Vite::asset('resources/images/svg/logo-no-background.svg') }}" class="w-full max-h-44">

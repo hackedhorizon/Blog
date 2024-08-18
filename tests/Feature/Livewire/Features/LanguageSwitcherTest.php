@@ -36,7 +36,7 @@ class LanguageSwitcherTest extends TestCase
      *  1. Generate a random locale.
      *  2. Set the selected language in the LanguageSwitcher component.
      *  3. Assert that the selected language is stored in the session.
-     *  4. Assert that the user is redirected to the home page.
+     *  4. Assert that the user is not redirected anywhere.
      *  5. Assert that the user is not authenticated.
      */
     /** @test */
@@ -47,7 +47,7 @@ class LanguageSwitcherTest extends TestCase
         Livewire::test(LanguageSwitcher::class)
             ->set('selectedLanguage', $randomLocale)
             ->assertSessionHas('locale', $randomLocale)
-            ->assertRedirect('/');
+            ->assertNoRedirect();
 
         $this->assertGuest();
     }

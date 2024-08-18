@@ -3,9 +3,11 @@
 use App\Livewire\Auth\EmailVerification;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Logout;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\User\Profile;
+use App\Livewire\User\Settings;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['throttle:web', 'translate'])->group(function () {
@@ -24,5 +26,7 @@ Route::middleware(['throttle:web', 'translate'])->group(function () {
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/profile', Profile::class)->name('profile');
+        Route::get('/profile/settings', Settings::class)->name('auth.settings');
+        Route::get('/logout', Logout::class)->name('logout');
     });
 });

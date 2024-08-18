@@ -8,6 +8,7 @@ return [
         'success' => 'Üdvözöllek az oldalon, :username! Jó böngészést!:)',
     ],
     'info' => [
-        'no_notifications_available' => 'Nincs új értesítés',
+        'title' => 'Értesítések',
+        'no_notifications_available' => 'Nincsenek értesítések',
     ],
 ];

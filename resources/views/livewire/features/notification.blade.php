@@ -1,11 +1,18 @@
 <div wire:poll.3s>
     <x-dropdown>
-        <x-slot:trigger>
-            <x-button icon="o-bell" class="btn-circle btn-ghost">
-                <x-badge value="{{ $unreadNotificationsCount }}" class="absolute badge-info -right-2 -top-2" />
-            </x-button>
+
+        {{-- Notifcation bell and text --}}
+        <x-slot:trigger class="normal-case btn btn-ghost btn-md place-self-center">
+            <span class="block bg-transparent hover:bg-transparent">
+                <x-heroicon-o-bell class="w-5 h-5" />
+                @if ($unreadNotificationsCount > 0)
+                    <x-badge value="{{ $unreadNotificationsCount }}" class="absolute badge-info -right-2 -top-2" />
+                @endif
+            </span>
+            <span class="hidden md:block">{{ __('notifications.info.title') }}</span>
         </x-slot:trigger>
 
+        {{-- Dropdown notifications --}}
         @forelse ($notifications as $notification)
             <x-menu-item wire:click="markAsRead('{{ $notification->id }}')">
                 <div class="{{ $notification->read_at ? 'text-lime-shadow' : 'text-lime-main' }}">
