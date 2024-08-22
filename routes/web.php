@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['translate'])->group(function () {
     Route::get('/', Home::class)->name('home');
     Route::get('/posts', Index::class)->name('posts');
-    Route::get('/posts/{id}', Show::class);
+    Route::get('/posts/{id}', Show::class)->name('posts.show');
     Route::get('/settings', Settings::class)->name('guest.settings');
 });
 

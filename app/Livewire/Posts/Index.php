@@ -5,6 +5,7 @@ namespace App\Livewire\Posts;
 use App\Modules\Post\Interfaces\ReadPostServiceInterface;
 use App\Modules\Post\Services\ReadPostService;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -12,16 +13,24 @@ class Index extends Component
 {
     use WithPagination;
 
-    private ReadPostServiceInterface $postService;
+    private ReadPostServiceInterface $readPostService;
+
+    #[Url(as: 'q', history: true, keep: true)]
+    public $search = '';
 
     public function render()
     {
         return view('livewire.posts.index');
     }
 
-    public function boot(ReadPostService $postService)
+    public function mount()
     {
-        $this->postService = $postService;
+        $this->search = '';
+    }
+
+    public function boot(ReadPostService $readPostService)
+    {
+        $this->readPostService = $readPostService;
     }
 
     public function paginationView()
@@ -34,11 +43,16 @@ class Index extends Component
         return view('livewire.placeholders.article-skeleton', ['param' => 'Articles']);
     }
 
-    #[Computed()]
+    public function updatedSearch()
+    {
+        $this->resetPage('article-page');
+    }
+
+    #[Computed]
     public function posts()
     {
-        $posts = $this->postService->getPaginatedPosts(3, 'article-page');
+        $shouldHaveLocalization = config('services.should_have_localization');
 
-        return $posts;
+        return $this->readPostService->searchPosts($this->search, $shouldHaveLocalization, 3);
     }
 }

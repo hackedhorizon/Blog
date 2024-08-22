@@ -39,6 +39,11 @@ class ReadPostService implements ReadPostServiceInterface
         return $this->readPostRepository->getFeaturedPaginatedPosts($numberOfPostsPerPage, $pageName);
     }
 
+    public function searchPosts(string $searchTerm, bool $shouldHaveLocalization, int $perPage): ?LengthAwarePaginator
+    {
+        return $this->readPostRepository->searchPosts($searchTerm, $shouldHaveLocalization, $perPage);
+    }
+
     /* ------------------------------------------------- */
     /* Scope functions to filter a post by an attribute. */
     /* ------------------------------------------------- */
