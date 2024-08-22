@@ -62,6 +62,7 @@
                                 <x-heroicon-o-user class="w-5 h-5 bg-transparent hover:bg-transparent" />
                                 <span class="hidden md:block">{{ __('Account') }}</span>
                             </x-slot:trigger>
+                            <x-menu-item title="{{ __('Profile') }}" link="{{ route('profile') }}" icon="o-user" />
                             <x-menu-item title="{{ __('Settings') }}" link="{{ route('auth.settings') }}"
                                 icon="o-cog-8-tooth" />
                             <x-menu-item title="{{ __('Logout') }}" link="{{ route('logout') }}" icon="o-arrow-right" />
