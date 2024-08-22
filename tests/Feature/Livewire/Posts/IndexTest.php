@@ -34,7 +34,6 @@ class IndexTest extends TestCase
             ->assertSee($firstPostTitle);
     }
 
-
     public function test_it_paginates_the_posts_correctly()
     {
         $users = User::factory()->count(6)->create();
@@ -67,7 +66,6 @@ class IndexTest extends TestCase
         Livewire::test(Index::class)
             ->assertSee($firstPostTitle); // Ensure it displays post titles as expected
     }
-
 
     public function test_it_renders_the_correct_pagination_view()
     {
