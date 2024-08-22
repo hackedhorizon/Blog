@@ -45,7 +45,7 @@
                     <span class="block">
                         @svg('eos-explore-o', ['class' => 'w-5 h-5'])
                     </span>
-                    <span class="hidden md:block">
+                    <span class="hidden lg:block">
                         {{ __('Articles') }}
                     </span>
                 </a>
