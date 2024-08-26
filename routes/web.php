@@ -1,7 +1,9 @@
 <?php
 
 use App\Livewire\Home;
+use App\Livewire\Posts\Index;
 use App\Livewire\Posts\Show;
+use App\Livewire\User\Settings;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['translate'])->group(function () {
     Route::get('/', Home::class)->name('home');
-    Route::get('/posts/{id}', Show::class);
+    Route::get('/posts', Index::class)->name('posts');
+    Route::get('/posts/{id}', Show::class)->name('posts.show');
+    Route::get('/settings', Settings::class)->name('guest.settings');
 });
 
 require __DIR__.'/auth.php';

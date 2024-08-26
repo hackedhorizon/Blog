@@ -28,6 +28,12 @@ jobs:
         run: |
           mkdir -p database
           touch database/database.sqlite
+      - name: Set up environment variables and scout driver
+        run: |
+          echo SCOUT_DRIVER=algolia >> .env
+          echo DEEPL_API_KEY=${{ secrets.DEEPL_API_KEY }} >> .env
+          echo ALGOLIA_APP_ID=${{ secrets.ALGOLIA_APP_ID }} >> .env
+          echo ALGOLIA_API_KEY=${{ secrets.ALGOLIA_API_KEY }} >> .env
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           DB_CONNECTION: sqlite

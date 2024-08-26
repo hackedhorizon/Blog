@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\App;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = ['user_id', 'title', 'body', 'is_published', 'is_featured'];
 
@@ -72,5 +73,13 @@ class Post extends Model
         $translation = $this->getTranslation($locale);
 
         return $translation ? $translation->body : $this->body;
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'title' => $this->translatedTitle,
+            'body' => $this->translatedBody,
+        ];
     }
 }

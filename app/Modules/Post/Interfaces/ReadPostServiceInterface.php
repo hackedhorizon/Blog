@@ -16,6 +16,8 @@ interface ReadPostServiceInterface
 
     public function getFeaturedPaginatedPosts(int $numberOfPostsPerPage, string $pageName): LengthAwarePaginator;
 
+    public function searchPosts(string $searchTerm, bool $shouldHaveLocalization, int $perPage): ?LengthAwarePaginator;
+
     /* ------------------------------------------------- */
     /* Scope functions to filter a post by an attribute. */
     /* ------------------------------------------------- */

@@ -50,6 +50,18 @@ interface ReadPostRepositoryInterface
      */
     public function getFeaturedPaginatedPosts(int $numberOfPostsPerPage, string $pageName): LengthAwarePaginator;
 
+    /**
+     * This function performs a search operation on posts based on the provided search term.
+     * It also allows filtering posts based on localization availability.
+     *
+     * @param  string  $searchTerm  The term to search for in the posts.
+     * @param  bool  $shouldHaveLocalization  Indicates whether the posts should have localization.
+     * @param  int  $perPage  The number of posts to return per page.
+     * @return \Illuminate\Database\Eloquent\Collection|null A collection of posts that match the search criteria.
+     *                                                       If no posts are found, it returns null.
+     */
+    public function searchPosts(string $searchTerm, bool $shouldHaveLocalization, int $perPage): ?LengthAwarePaginator;
+
     /* ------------------------------------------------- */
     /* Scope functions to filter a post by an attribute. */
     /* ------------------------------------------------- */

@@ -21,7 +21,7 @@ class LanguageSwitcher extends Component
     public function mount(LocalizationService $localizationService)
     {
         $this->selectedLanguage = $localizationService->getAppLocale();
-        $this->languages = collect(Config::get('app.locales'));
+        $this->languages = Config::get('app.locales');
     }
 
     public function updatedSelectedLanguage(LocalizationService $localizationService)
@@ -29,6 +29,6 @@ class LanguageSwitcher extends Component
         $localizationService->updateCurrentlySelectedLanguage(Auth::id(), $this->selectedLanguage);
         $localizationService->setAppLocale($this->selectedLanguage);
 
-        return $this->redirect('/', navigate: true);
+        return $this->redirect(request()->header('Referer'), navigate: true);
     }
 }

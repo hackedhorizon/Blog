@@ -1,28 +1,11 @@
-<div class="flex flex-col max-w-screen-xl gap-10 p-10 mx-auto tracking-normal">
+<div class="flex flex-col items-center justify-center">
 
-    {{-- Header with title and explore more link --}}
-    <div class="flex flex-row items-end justify-between">
-        <h1 class="text-4xl font-normal">{{ __('Articles') }}</h1>
-        <p class="items-center text-base cursor-pointer">
-            Explore More
-            @svg('ri-arrow-right-double-line', ['class' => 'w-5 inline transition-all duration-300'])
-        </p>
+    <!-- Search Input -->
+    <div class="w-full px-5 mx-5">
+        <x-input wire:model.live.500ms='search' name="search" placeholder="{{ __('Search') }}" icon="o-magnifying-glass"
+            class="w-full bg-surface-300 placeholder-lime-shadow/50" />
     </div>
 
-    {{-- Grid of articles --}}
-    <div class="grid grid-cols-1 cursor-pointer gap-7 md:grid-cols-2 lg:grid-cols-3">
-        @foreach ($this->posts as $post)
-            @include('components.cards.article-card', [
-                'id' => $post->id,
-                'image' => 'https://picsum.photos/500/350',
-                'date' => $post->created_at->format('M d, Y'),
-                'categories' => $post->categories->pluck('name')->implode(', '),
-                'title' => $post->title,
-                'author' => $post->user->name,
-            ])
-        @endforeach
-    </div>
-
-    {{-- Pagination links --}}
-    {{ $this->posts->links(data: ['scrollTo' => false]) }}
+    <!-- Articles Container -->
+    <x-cards.article-card-container :pagination="true" :title="__('Articles')" :posts="$this->posts" />
 </div>

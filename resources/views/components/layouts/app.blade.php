@@ -14,13 +14,13 @@
     class="flex flex-col overflow-x-hidden transition-all duration-300 bg-center bg-default md:text-xl lg:text-2xl text-primary-500">
 
     {{-- Toast messages --}}
-    <x-toast />
+    <x-toast position="toast-top toast-center" />
 
     {{-- Email notification --}}
     <x-notifications.verify-email-notification />
 
     {{-- Navbar --}}
-    <x-navigation.navbar />
+    @livewire('features.navbar')
 
     {{-- Main content --}}
     <main class="flex items-center justify-center min-h-[calc(100vh-155px)] md:min-h-[calc(100vh-90px)] text-lime-main">
