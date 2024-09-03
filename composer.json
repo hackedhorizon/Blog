@@ -30,7 +30,8 @@
         "livewire/livewire": "^3.4",
         "outhebox/blade-flags": "^1.5",
         "robsontenorio/mary": "^1.30",
-        "saade/blade-iconsax": "^1.2"
+        "saade/blade-iconsax": "^1.2",
+        "spatie/laravel-permission": "^6.9"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23.1",
