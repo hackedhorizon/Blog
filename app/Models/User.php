@@ -49,7 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-
     /**
      * Send the email verification notification.
      *
