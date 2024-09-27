@@ -26,16 +26,25 @@ class PostCreate extends Component
     public array $selectedCategories = [];
 
     public string $detectedLanguage = '';
+
     public bool $featured = false;
+
     public bool $published = true;
+
     public bool $autoTranslate = true;
+
     public DateTime $publicationDate;
+
     public array $languages = [];
+
     public array $selectedLanguages = [];
+
     public array $categories = [];
 
     private LocalizationServiceInterface $localizationService;
+
     private ReadCategoryService $readCategoryService;
+
     private WritePostServiceInterface $writePostService;
 
     #[Layout('components.layouts.admin')]
@@ -55,8 +64,8 @@ class PostCreate extends Component
     public function mount()
     {
         $this->detectedLanguage = session()->get('locale');
-        $this->languages = collect(config('app.locales'))->map(fn($label, $code) => ['value' => $code, 'label' => $label])->values()->toArray();
-        $this->categories = $this->readCategoryService->getCategories()->map(fn($category) => ['label' => $category['name'], 'value' => $category['id']])->toArray();
+        $this->languages = collect(config('app.locales'))->map(fn ($label, $code) => ['value' => $code, 'label' => $label])->values()->toArray();
+        $this->categories = $this->readCategoryService->getCategories()->map(fn ($category) => ['label' => $category['name'], 'value' => $category['id']])->toArray();
     }
 
     public function createPost()

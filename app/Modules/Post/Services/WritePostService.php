@@ -2,15 +2,16 @@
 
 namespace App\Modules\Post\Services;
 
+use App\Modules\Localization\Interfaces\LocalizationServiceInterface;
 use App\Modules\Post\DTOs\PostCreateDTO;
 use App\Modules\Post\Interfaces\WritePostRepositoryInterface;
 use App\Modules\Post\Interfaces\WritePostServiceInterface;
-use App\Modules\Localization\Interfaces\LocalizationServiceInterface;
 use Illuminate\Support\Facades\Log;
 
 class WritePostService implements WritePostServiceInterface
 {
     protected WritePostRepositoryInterface $writePostRepository;
+
     protected LocalizationServiceInterface $localizationService;
 
     public function __construct(
@@ -26,7 +27,7 @@ class WritePostService implements WritePostServiceInterface
         // Detect the language of the post's title
         $detectedLanguage = strtolower($this->localizationService->detectLanguage($postCreateDTO->title));
 
-        if (!$detectedLanguage) {
+        if (! $detectedLanguage) {
             throw new \Exception(__('posts.Language detection failed.'));
         }
 
@@ -41,6 +42,7 @@ class WritePostService implements WritePostServiceInterface
 
         if (empty($targetLanguages)) {
             Log::warning('No target languages found for translation.');
+
             return;
         }
 
@@ -49,7 +51,7 @@ class WritePostService implements WritePostServiceInterface
         foreach ($targetLanguages as $locale) {
             $translations[$locale] = [
                 'title' => $this->localizationService->translate($postCreateDTO->title, $detectedLanguage, $locale),
-                'body'  => $this->localizationService->translate($postCreateDTO->content, $detectedLanguage, $locale),
+                'body' => $this->localizationService->translate($postCreateDTO->content, $detectedLanguage, $locale),
             ];
         }
 

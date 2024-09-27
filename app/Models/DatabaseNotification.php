@@ -25,5 +25,4 @@ class DatabaseNotification extends \Illuminate\Notifications\DatabaseNotificatio
 
         return [];
     }
-
 }

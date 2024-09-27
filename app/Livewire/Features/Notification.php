@@ -15,7 +15,6 @@ class Notification extends Component
         ]);
     }
 
-
     public function markAsRead($notificationId)
     {
         $notification = Auth::user()->notifications()->find($notificationId);

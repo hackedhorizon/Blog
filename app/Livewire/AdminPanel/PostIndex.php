@@ -13,9 +13,12 @@ class PostIndex extends Component
     use WithPagination;
 
     public $perPage = 10; // Number of posts per page
+
     #[Url(as: 'q', history: true, keep: true)]
     public $search = ''; // For searching posts by title
+
     public $sortField = 'created_at'; // Default sorting field
+
     public $sortDirection = 'desc'; // Default sorting direction
 
     public $perPageOptions = [

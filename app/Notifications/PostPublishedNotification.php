@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 class PostPublishedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
     private $title;
 
     /**
