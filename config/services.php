@@ -42,4 +42,5 @@ return [
 
     'should_have_localization' => env('LOCALIZATION'),
 
+    'deepl_api_key' => env('DEEPL_API_KEY'),
 ];

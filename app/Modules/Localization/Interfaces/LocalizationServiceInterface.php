@@ -35,5 +35,12 @@ interface LocalizationServiceInterface
     /**
      * Translate text to a target language.
      */
-    public function translate(string $text, string $from, array $to): string;
+    public function translate(string $text, string $from, array $to): array;
+
+    /**
+     * Detect the language of the given text.
+     *
+     * @return string|null The detected language code or null if detection fails.
+     */
+    public function detectLanguage(string $text): ?string;
 }

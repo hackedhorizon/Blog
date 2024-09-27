@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->command('post:publish-scheduled')->everyMinute();
         $schedule->command('app:delete-unverified')->daily()->withoutOverlapping();
     }
 

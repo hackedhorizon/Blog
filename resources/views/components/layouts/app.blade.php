@@ -10,7 +10,7 @@
     @vite('resources/js/app.js')
 </head>
 
-<body data-scroll-container x-data="{ open: false, searchOpen: false }"
+<body x-data="{ open: false, searchOpen: false }"
     class="flex flex-col overflow-x-hidden transition-all duration-300 bg-center bg-default md:text-xl lg:text-2xl text-primary-500">
 
     {{-- Toast messages --}}

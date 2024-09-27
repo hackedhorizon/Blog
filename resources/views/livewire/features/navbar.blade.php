@@ -1,4 +1,4 @@
-<nav class="z-10 w-full px-4">
+<nav class="z-[1] w-full px-4">
 
     {{-- Mobile Navigation --}}
     <div class="text-sm h-14 btm-nav md:hidden bg-surface-400">
@@ -7,6 +7,11 @@
                 'home' => ['icon' => 'heroicon-o-home', 'label' => __('Home')],
                 'posts' => ['icon' => 'eos-explore-o', 'label' => __('Articles')],
             ];
+
+            if (Auth::check() && Auth::user()->hasRole('admin')) {
+                $routes['admin.dashboard'] = ['icon' => 'eos-dashboard-o', 'label' => __('Dashboard')];
+            }
+
             if (auth()->check()) {
                 $routes['profile'] = ['icon' => 'heroicon-o-user', 'label' => __('Account')];
                 $routes['auth.settings'] = ['icon' => 'heroicon-c-cog-8-tooth', 'label' => __('Settings')];
@@ -39,13 +44,26 @@
             {{-- Navigation Links --}}
             <div class="flex items-center md:gap-4">
 
+                {{--  Admin Dashboard page  --}}
+                @if (Auth::check() && Auth::user()->hasRole('admin'))
+                    <a wire:key='dashboard' wire:navigate type="button"
+                        class="hidden normal-case btn btn-ghost btn-md md:flex" href="{{ route('admin.dashboard') }}">
+                        <span class="block">
+                            @svg('eos-dashboard-o', ['class' => 'w-5 h-5'])
+                        </span>
+                        <span class="hidden md:flex">
+                            {{ __('Dashboard') }}
+                        </span>
+                    </a>
+                @endif
+
                 {{--  Articles page  --}}
                 <a wire:key='articles' wire:navigate type="button"
                     class="hidden normal-case btn btn-ghost btn-md md:flex" href="{{ route('posts') }}">
                     <span class="block">
                         @svg('eos-explore-o', ['class' => 'w-5 h-5'])
                     </span>
-                    <span class="hidden lg:block">
+                    <span class="hidden md:flex">
                         {{ __('Articles') }}
                     </span>
                 </a>

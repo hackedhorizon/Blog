@@ -13,9 +13,10 @@ class DatabaseNotification extends \Illuminate\Notifications\DatabaseNotificatio
             if (isset($this->attributes['serialized']) && $this->attributes['serialized']) {
                 $obj = unserialize($data['data']);
                 if (method_exists($obj, 'toDatabase')) {
-                    return unserialize($data['data'])->toDatabase($this->notifiable);
+                    // Use the preloaded notifiable if available
+                    return $obj->toDatabase($this->relationLoaded('notifiable') ? $this->notifiable : null);
                 } else {
-                    return unserialize($data['data'])->toArray($this->notifiable);
+                    return $obj->toArray($this->relationLoaded('notifiable') ? $this->notifiable : null);
                 }
             } else {
                 return $data;
@@ -24,4 +25,5 @@ class DatabaseNotification extends \Illuminate\Notifications\DatabaseNotificatio
 
         return [];
     }
+
 }

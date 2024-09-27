@@ -10,10 +10,11 @@ class Notification extends Component
     public function render()
     {
         return view('livewire.features.notification', [
-            'notifications' => Auth::user()->notifications()->get(),
+            'notifications' => Auth::user()->notifications()->with('notifiable')->get(),
             'unreadNotificationsCount' => Auth::user()->unreadNotifications->count(),
         ]);
     }
+
 
     public function markAsRead($notificationId)
     {

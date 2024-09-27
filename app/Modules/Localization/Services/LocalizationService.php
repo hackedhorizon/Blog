@@ -8,6 +8,8 @@ use App\Modules\UserManagement\Services\ReadUserService;
 use App\Modules\UserManagement\Services\WriteUserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class LocalizationService implements LocalizationServiceInterface
 {
@@ -60,14 +62,39 @@ class LocalizationService implements LocalizationServiceInterface
         session()->put('locale', $locale);
     }
 
-    public function translate($text, $from, $to): string
+    public function translate($text, $from, $to): array
     {
         try {
             $translated = $this->translateString($text, $from, $to);
+            if (! is_array($translated)) {
+                $translated = [];
+            }
         } catch (\Throwable $th) {
-            dd($th);
+            Log::error('Translation failed: '.$th->getMessage());
+
+            return [];
         }
 
         return $translated;
+    }
+
+    public function detectLanguage(string $text): ?string
+    {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'DeepL-Auth-Key '.config('services.deepl_api_key'),
+            ])->post('https://api-free.deepl.com/v2/translate', [
+                'text' => [$text],
+                'target_lang' => 'EN',
+            ]);
+
+            if ($response->successful() && isset($response->json()['translations'][0]['detected_source_language'])) {
+                return $response->json()['translations'][0]['detected_source_language'];
+            }
+        } catch (\Throwable $th) {
+            Log::error('Error detecting language: '.$th->getMessage());
+        }
+
+        return null;
     }
 }

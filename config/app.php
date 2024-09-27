@@ -187,6 +187,7 @@ return [
         App\Providers\EmailVerificationServiceProvider::class,
         App\Providers\LocalizationServiceProvider::class,
         App\Providers\ReadPostServiceProvider::class,
+        App\Providers\WritePostServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
     ])->toArray(),
 

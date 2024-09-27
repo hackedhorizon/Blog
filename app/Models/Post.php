@@ -14,7 +14,7 @@ class Post extends Model
 {
     use HasFactory, Searchable;
 
-    protected $fillable = ['user_id', 'title', 'body', 'is_published', 'is_featured'];
+    protected $fillable = ['user_id', 'title', 'body', 'is_published', 'published_at', 'is_featured'];
 
     // Relations
 

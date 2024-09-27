@@ -42,6 +42,7 @@
     "Continue": "Folytatni",
     "Create": "Létrehozás",
     "Created": "Létrehozva",
+    "Dashboard": "Vezérlőpult",
     "Delete": "Törlés",
     "Detach": "Leválasztás",
     "Details": "Részletek",
@@ -161,6 +162,7 @@
     "results": "eredmények",
     "Retry With": "Próbálja újra",
     "Sign in to your account": "Jelentkezz be fiókodba",
+    "Statistics": "Statisztika",
     "Save": "Mentés",
     "Save & Close": "Mentés és bezárás",
     "Save & Return": "Mentés és visszaküldés",
@@ -220,5 +222,6 @@
     "Web Server is Down": "A webszerver nem működik",
     "Whoops!": "Hoppá!",
     "Yes": "Igen",
-    "You are receiving this email because we received a password reset request for your account.": "Azért kapja ezt az üzenetet, mert a fiókjára jelszó helyreállítási kérés érkezett."
+    "You are receiving this email because we received a password reset request for your account.": "Azért kapja ezt az üzenetet, mert a fiókjára jelszó helyreállítási kérés érkezett.",
+    "Categories" : "Kategóriák"
 }

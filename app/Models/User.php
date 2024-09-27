@@ -50,6 +50,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    public function notifiable()
+    {
+        return $this->morphTo();
+    }
+
     /**
      * Send the email verification notification.
      *

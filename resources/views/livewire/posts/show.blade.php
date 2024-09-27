@@ -30,8 +30,9 @@
 {{-- Scroll to the top if user navigated to an article --}}
 <script>
     window.addEventListener('livewire:navigated', () => {
-        window.locomotiveScroll.scrollTo(0, {
-            duration: 1,
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
         });
     });
 </script>

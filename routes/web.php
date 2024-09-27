@@ -1,6 +1,8 @@
 <?php
 
 use App\Livewire\AdminPanel\Dashboard;
+use App\Livewire\AdminPanel\PostCreate;
+use App\Livewire\AdminPanel\PostIndex;
 use App\Livewire\Home;
 use App\Livewire\Posts\Index;
 use App\Livewire\Posts\Show;
@@ -25,8 +27,15 @@ Route::middleware(['translate'])->group(function () {
     Route::get('/settings', Settings::class)->name('guest.settings');
 });
 
-Route::middleware(['auth', 'admin', 'translate'])->prefix('admin')->group(function () {
+// routes/web.php
+
+Route::middleware(['auth', 'admin', 'translate'])->prefix('admin/dashboard')->group(function () {
+    // Admin Dashboard
     Route::get('/', Dashboard::class)->name('admin.dashboard');
+
+    // Post Management
+    Route::get('/posts/create', PostCreate::class)->name('admin.dashboard.posts.create');
+    Route::get('/posts/all', PostIndex::class)->name('admin.dashboard.posts.table');
 });
 
 require __DIR__.'/auth.php';

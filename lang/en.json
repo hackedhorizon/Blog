@@ -42,6 +42,7 @@
     "Continue": "Continue",
     "Create": "Create",
     "Created": "Created",
+    "Dashboard": "Dashboard",
     "Delete": "Delete",
     "Detach": "Detach",
     "Details": "Details",
@@ -161,6 +162,7 @@
     "Retry With": "Retry With",
     "Read More": "Read More",
     "Sign in to your account": "Sign in to your account",
+    "Statistics" : "Statistics",
     "Save": "Save",
     "Save & Close": "Save & Close",
     "Save & Return": "Save & Return",
@@ -220,5 +222,6 @@
     "Web Server is Down": "Web Server is Down",
     "Whoops!": "Whoops!",
     "Yes": "Yes",
-    "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account."
+    "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
+    "Categories" : "Categories"
 }
