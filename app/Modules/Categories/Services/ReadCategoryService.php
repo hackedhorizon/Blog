@@ -16,8 +16,6 @@ class ReadCategoryService implements ReadCategoryServiceInterface
 
     /**
      * ReadCategoryService constructor.
-     *
-     * @param ReadCategoryRepositoryInterface $readCategoryRepository
      */
     public function __construct(ReadCategoryRepositoryInterface $readCategoryRepository)
     {
@@ -26,8 +24,6 @@ class ReadCategoryService implements ReadCategoryServiceInterface
 
     /**
      * Get all categories.
-     *
-     * @return Collection
      */
     public function getCategories(): Collection
     {
