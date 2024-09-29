@@ -188,6 +188,7 @@ return [
         App\Providers\LocalizationServiceProvider::class,
         App\Providers\ReadPostServiceProvider::class,
         App\Providers\WritePostServiceProvider::class,
+        App\Providers\CategoriesServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
     ])->toArray(),
 

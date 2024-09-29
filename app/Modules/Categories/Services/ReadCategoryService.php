@@ -2,12 +2,35 @@
 
 namespace App\Modules\Categories\Services;
 
-use App\Models\Category;
+use App\Modules\Categories\Interfaces\ReadCategoryRepositoryInterface;
+use App\Modules\Categories\Interfaces\ReadCategoryServiceInterface;
+use Illuminate\Database\Eloquent\Collection;
 
-class ReadCategoryService
+/**
+ * Class ReadCategoryService
+ * Handles the retrieval of categories.
+ */
+class ReadCategoryService implements ReadCategoryServiceInterface
 {
-    public function getCategories()
+    private ReadCategoryRepositoryInterface $readCategoryRepository;
+
+    /**
+     * ReadCategoryService constructor.
+     *
+     * @param ReadCategoryRepositoryInterface $readCategoryRepository
+     */
+    public function __construct(ReadCategoryRepositoryInterface $readCategoryRepository)
     {
-        return Category::all();
+        $this->readCategoryRepository = $readCategoryRepository;
+    }
+
+    /**
+     * Get all categories.
+     *
+     * @return Collection
+     */
+    public function getCategories(): Collection
+    {
+        return $this->readCategoryRepository->getCategories();
     }
 }

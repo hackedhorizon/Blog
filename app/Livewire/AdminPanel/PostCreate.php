@@ -2,7 +2,7 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Modules\Categories\Services\ReadCategoryService;
+use App\Modules\Categories\Interfaces\ReadCategoryServiceInterface;
 use App\Modules\Localization\Interfaces\LocalizationServiceInterface;
 use App\Modules\Post\DTOs\PostCreateDTO;
 use App\Modules\Post\Interfaces\WritePostServiceInterface;
@@ -43,7 +43,7 @@ class PostCreate extends Component
 
     private LocalizationServiceInterface $localizationService;
 
-    private ReadCategoryService $readCategoryService;
+    private ReadCategoryServiceInterface $readCategoryService;
 
     private WritePostServiceInterface $writePostService;
 
@@ -53,7 +53,7 @@ class PostCreate extends Component
         return view('livewire.admin-panel.post-create');
     }
 
-    public function boot(LocalizationServiceInterface $localizationService, ReadCategoryService $readCategoryService, WritePostServiceInterface $writePostService)
+    public function boot(LocalizationServiceInterface $localizationService, ReadCategoryServiceInterface $readCategoryService, WritePostServiceInterface $writePostService)
     {
         $this->localizationService = $localizationService;
         $this->readCategoryService = $readCategoryService;

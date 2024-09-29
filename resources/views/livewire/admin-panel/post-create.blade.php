@@ -8,6 +8,8 @@
         'quickbars_selection_toolbar' => 'bold italic link',
         'menubar' => 'file edit view',
         'resize' => true,
+        'skin' => 'oxide-dark',
+        'content_css' => 'dark',
     ];
 @endphp
 
