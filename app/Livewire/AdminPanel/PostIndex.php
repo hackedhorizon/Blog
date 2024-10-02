@@ -68,7 +68,6 @@ class PostIndex extends Component
         }
     }
 
-
     public function deletePost($postId)
     {
         Post::find($postId)->delete();
