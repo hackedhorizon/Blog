@@ -1,4 +1,5 @@
 {
+    "Are you sure you want to delete this post?": "Are you sure you want to delete this post?",
     "(and :count more error)": "(and :count more error)",
     "(and :count more errors)": "(and :count more errors)",
     "A Timeout Occurred": "A Timeout Occurred",
@@ -44,6 +45,7 @@
     "Created": "Created",
     "Dashboard": "Dashboard",
     "Delete": "Delete",
+    "Delete Selected Posts": "Delete selected post(s)",
     "Detach": "Detach",
     "Details": "Details",
     "Disable": "Disable",
@@ -223,5 +225,6 @@
     "Whoops!": "Whoops!",
     "Yes": "Yes",
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
-    "Categories" : "Categories"
+    "Categories" : "Categories",
+    "Created At": "Created At"
 }

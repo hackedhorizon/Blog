@@ -1,4 +1,5 @@
 {
+    "Are you sure you want to delete this post?": "Biztosan törölni szeretné ezt a cikket?",
     "(and :count more error)": "(és még :count hiba)",
     "(and :count more errors)": "(és még :count hiba)",
     "A Timeout Occurred": "Időtúllépés történt",
@@ -44,6 +45,7 @@
     "Created": "Létrehozva",
     "Dashboard": "Vezérlőpult",
     "Delete": "Törlés",
+    "Delete Selected Posts": "Kiválasztott cikk(ek) törlése",
     "Detach": "Leválasztás",
     "Details": "Részletek",
     "Disable": "Letiltás",
@@ -223,5 +225,6 @@
     "Whoops!": "Hoppá!",
     "Yes": "Igen",
     "You are receiving this email because we received a password reset request for your account.": "Azért kapja ezt az üzenetet, mert a fiókjára jelszó helyreállítási kérés érkezett.",
-    "Categories" : "Kategóriák"
+    "Categories" : "Kategóriák",
+    "Created At": "Létrehozva"
 }

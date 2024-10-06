@@ -17,16 +17,11 @@ class PostIndex extends Component
     #[Url(as: 'q', history: true, keep: true)]
     public $search = '';
 
-    public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
+    public array $sortBy = [];
 
     public array $selected = [];
 
-    public $perPageOptions = [
-        ['name' => '10 per page', 'value' => 10],
-        ['name' => '25 per page', 'value' => 25],
-        ['name' => '50 per page', 'value' => 50],
-        ['name' => '100 per page', 'value' => 100],
-    ];
+    public $perPageOptions = [];
 
     protected $listeners = ['postDeleted' => '$refresh'];
 
@@ -51,6 +46,14 @@ class PostIndex extends Component
     public function mount()
     {
         $this->search = '';
+        $this->perPageOptions = [
+            ['name' => __('pagination.per_page.10'), 'value' => 10],
+            ['name' => __('pagination.per_page.25'), 'value' => 25],
+            ['name' => __('pagination.per_page.50'), 'value' => 50],
+            ['name' => __('pagination.per_page.100'), 'value' => 100],
+        ];
+
+        $this->sortBy = ['column' => 'created_at', 'direction' => 'desc'];
     }
 
     public function updatedSearch()
