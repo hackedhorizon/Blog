@@ -3,6 +3,7 @@
 namespace App\Livewire\Posts;
 
 use App\Modules\Post\Services\ReadPostService;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Show extends Component
@@ -29,7 +30,7 @@ class Show extends Component
 
         $postDTO = $this->readPostService->getPostDetails($id);
 
-        if (! $postDTO->getPostIsPublished()) {
+        if (! $postDTO->getPostIsPublished() && ! Auth::user()->can('view unpublished posts')) {
             abort(403, 'Post not found or not accessible.');
         }
 

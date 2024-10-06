@@ -8,6 +8,7 @@
 
 <div class="relative p-6 my-4 mb-10 rounded-lg shadow-md bg-surface-200" role="region"
     aria-labelledby="edit-article-header">
+
     {{-- Loading indicator --}}
     <span wire:loading class="absolute top-6 right-6 loading loading-spinner loading-md" aria-live="polite"
         aria-label="{{ __('Loading...') }}"></span>
@@ -35,7 +36,8 @@
 
     {{-- Posts table --}}
     <x-table :headers="$headers" :rows="$posts" :sort-by="$sortBy" wire:model="selected" selectable
-        @row-selection="console.log($event.detail)">
+        @row-selection="console.log($event.detail)" link="{{ Route('posts') }}/{id}">
+
         @scope('cell_user_username', $post)
             <div class="truncate max-w-30">
                 {{ $post->user_username }}
@@ -43,7 +45,7 @@
         @endscope
 
         @scope('cell_title', $post)
-            <div class="truncate max-w-96">
+            <div class="truncate max-w-96 ">
                 {{ $post->title }}
             </div>
         @endscope
@@ -52,15 +54,19 @@
             {{ $post->created_at->format('Y-m-d') }}
         @endscope
 
-        @scope('actions', $user)
-            <x-button icon="o-trash" wire:click="delete({{ $user->id }})" spinner
-                class="btn btn-sm btn-outline btn-error" aria-label="{{ __('Delete Post') }}" />
+        @scope('actions', $post)
+            <div class="flex gap-2">
+                <x-button icon="o-pencil" wire:click="edit({{ $post->id }})" spinner
+                    class="btn btn-sm btn-outline btn-info" aria-label="{{ __('Edit Post') }}" />
+                <x-button icon="o-trash" wire:click="delete({{ $post->id }})" spinner
+                    class="btn btn-sm btn-outline btn-error" aria-label="{{ __('Delete Post') }}" />
+            </div>
         @endscope
     </x-table>
 
     {{-- Delete Selected Posts Action Button --}}
     <div class="flex justify-end mt-4">
-        <x-button label="{{ __('Delete Selected') }}" icon="o-trash" wire:click="bulkDelete()" spinner
+        <x-button label="{{ __('Delete Selected') }}" icon="o-trash" wire:click="delete()" spinner
             class="btn btn-outline btn-error" aria-label="{{ __('Delete selected posts') }}" />
     </div>
 
