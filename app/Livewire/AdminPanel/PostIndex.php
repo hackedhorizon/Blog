@@ -7,7 +7,9 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Lazy;
 
+#[Lazy]
 class PostIndex extends Component
 {
     use WithPagination;
@@ -46,6 +48,7 @@ class PostIndex extends Component
     public function mount()
     {
         $this->search = '';
+
         $this->perPageOptions = [
             ['name' => __('pagination.per_page.10'), 'value' => 10],
             ['name' => __('pagination.per_page.25'), 'value' => 25],
@@ -54,6 +57,11 @@ class PostIndex extends Component
         ];
 
         $this->sortBy = ['column' => 'created_at', 'direction' => 'desc'];
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.admin.edit-post-skeleton', ['param' => 'Latest']);
     }
 
     public function updatedSearch()
