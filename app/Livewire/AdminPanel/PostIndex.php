@@ -15,7 +15,6 @@ use Mary\Traits\Toast;
 class PostIndex extends Component
 {
     use Toast;
-
     use WithPagination;
 
     public $perPage = 10;
@@ -90,8 +89,9 @@ class PostIndex extends Component
             $this->writePostService->deletePost($postId, $this->selected);
 
             $this->selected = [];
+
             return $this->success(
-                title: __('posts.' . ($postId ? 'Post deleted successfully' : 'Selected posts deleted successfully')),
+                title: __('posts.'.($postId ? 'Post deleted successfully' : 'Selected posts deleted successfully')),
                 icon: 'o-check-circle'
             );
         } catch (\Exception $e) {

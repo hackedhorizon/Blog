@@ -19,5 +19,5 @@ return [
     'Publish now' => 'Cikk azonnali publikálása',
     'Publish at a specific time' => 'Cikk létrehozása később',
     'Post deleted succesfully' => 'Cikk sikeresen törölve!',
-    'Selected posts deleted succesfully' => 'A kiválasztott cikkek sikeresen törlésre kerültek!'
+    'Selected posts deleted succesfully' => 'A kiválasztott cikkek sikeresen törlésre kerültek!',
 ];

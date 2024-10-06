@@ -19,5 +19,5 @@ return [
     'Publish now' => 'Publish now',
     'Publish at a specific time' => 'Publish at a specific time',
     'Post deleted succesfully' => 'Post deleted succesfully!',
-    'Selected posts deleted succesfully' => 'Selected posts deleted succesfully!'
+    'Selected posts deleted succesfully' => 'Selected posts deleted succesfully!',
 ];

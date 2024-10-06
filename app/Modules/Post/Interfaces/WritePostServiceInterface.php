@@ -8,5 +8,5 @@ interface WritePostServiceInterface
 {
     public function createPost(PostCreateDTO $postCreateDTO): void;
 
-    public function deletePost(int $postId = null, array $selected = []): void;
+    public function deletePost(?int $postId = null, array $selected = []): void;
 }
