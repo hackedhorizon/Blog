@@ -4,10 +4,10 @@ namespace App\Livewire\AdminPanel;
 
 use App\Models\Post;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Lazy;
 
 #[Lazy]
 class PostIndex extends Component

@@ -5,10 +5,10 @@ namespace App\Livewire\Posts;
 use App\Modules\Post\Interfaces\ReadPostServiceInterface;
 use App\Modules\Post\Services\ReadPostService;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Lazy;
 
 #[Lazy]
 class Index extends Component
