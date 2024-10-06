@@ -61,15 +61,17 @@
                     tooltip="{{ __('Edit') }}" />
                 <x-button icon="o-trash" wire:click="delete({{ $post->id }})" spinner
                     class="btn btn-sm btn-outline btn-error" aria-label="{{ __('Delete Post') }}"
-                    tooltip="{{ __('Delete') }}" wire:confirm="{{ __('Are you sure you want to delete this post?') }}" />
+                    tooltip="{{ __('Delete') }}"
+                    wire:confirm="{{ __('posts.Are you sure you want to delete this post?') }}" />
             </div>
         @endscope
     </x-table>
 
     {{-- Delete Selected Posts Action Button --}}
     <div class="flex justify-end mt-4">
-        <x-button label="{{ __('Delete Selected Posts') }}" icon="o-trash" wire:click="delete()" spinner
-            class="btn btn-outline btn-error" aria-label="{{ __('Delete selected posts') }}" />
+        <x-button label="{{ __('posts.Delete selected posts') }}" icon="o-trash" wire:click="delete()" spinner
+            class="btn btn-outline btn-error" aria-label="{{ __('posts.Delete selected posts') }}"
+            wire:confirm="{{ __('posts.Are you sure you want to delete the selected posts?') }}" />
     </div>
 
     <!-- Pagination Links -->

@@ -58,4 +58,19 @@ class WritePostService implements WritePostServiceInterface
         // Use the repository to save the post and its translations
         $this->writePostRepository->savePostAndTranslations($postCreateDTO, $translations);
     }
+
+    public function deletePost(int $postId = null, array $selected = []): void
+    {
+        if ($postId) {
+            // Single post deletion
+            $this->writePostRepository->deletePostById($postId);
+            Log::info("Post with ID {$postId} was deleted successfully.");
+        } elseif (!empty($selected)) {
+            // Batch post deletion
+            $this->writePostRepository->deletePostsByIds($selected);
+            Log::info('Selected posts were deleted successfully: ' . implode(', ', $selected));
+        } else {
+            throw new \Exception(__('posts.There are no posts selected!'));
+        }
+    }
 }

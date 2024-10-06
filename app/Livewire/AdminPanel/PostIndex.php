@@ -3,15 +3,19 @@
 namespace App\Livewire\AdminPanel;
 
 use App\Models\Post;
+use App\Modules\Post\Interfaces\WritePostServiceInterface;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 #[Lazy]
 class PostIndex extends Component
 {
+    use Toast;
+
     use WithPagination;
 
     public $perPage = 10;
@@ -27,6 +31,8 @@ class PostIndex extends Component
 
     protected $listeners = ['postDeleted' => '$refresh'];
 
+    private WritePostServiceInterface $writePostService;
+
     #[Layout('components.layouts.admin')]
     public function render()
     {
@@ -39,14 +45,9 @@ class PostIndex extends Component
         return view('livewire.admin-panel.post-index', ['posts' => $posts]);
     }
 
-    public function paginationView()
+    public function boot(WritePostServiceInterface $writePostService)
     {
-        return 'components.pagination.links';
-    }
-
-    public function placeholder()
-    {
-        return view('livewire.placeholders.admin.edit-post-skeleton', ['param' => 'Latest']);
+        $this->writePostService = $writePostService;
     }
 
     public function mount()
@@ -63,6 +64,16 @@ class PostIndex extends Component
         $this->sortBy = ['column' => 'created_at', 'direction' => 'desc'];
     }
 
+    public function paginationView()
+    {
+        return 'components.pagination.links';
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.admin.edit-post-skeleton', ['param' => 'Latest']);
+    }
+
     public function updatedSearch()
     {
         $this->resetPage();
@@ -70,13 +81,24 @@ class PostIndex extends Component
 
     public function updateSelected($selectedIds)
     {
-        $this->selected = $selectedIds; // Update the selected property
+        $this->selected = $selectedIds;
     }
 
-    // public function deletePost($postId)
-    // {
-    //     Post::find($postId)->delete();
-    //     $this->dispatchBrowserEvent('notification', ['type' => 'success', 'message' => 'Post deleted successfully']);
-    //     $this->emit('postDeleted');
-    // }
+    public function delete($postId = null)
+    {
+        try {
+            $this->writePostService->deletePost($postId, $this->selected);
+
+            $this->selected = [];
+            return $this->success(
+                title: __('posts.' . ($postId ? 'Post deleted successfully' : 'Selected posts deleted successfully')),
+                icon: 'o-check-circle'
+            );
+        } catch (\Exception $e) {
+            return $this->error(
+                title: $e->getMessage(),
+                icon: 'o-information-circle'
+            );
+        }
+    }
 }

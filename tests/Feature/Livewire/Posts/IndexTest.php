@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Livewire\AdminPanel;
+namespace Tests\Feature\Livewire\Posts;
 
 use App\Livewire\Posts\Index;
 use App\Models\Post;
@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-class PostIndexTest extends TestCase
+class IndexTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -42,4 +42,17 @@ class WritePostRepository implements WritePostRepositoryInterface
 
         $post->categories()->attach($postCreateDTO->selectedCategories);
     }
+
+    // Method to delete a single post
+    public function deletePostById(int $postId): void
+    {
+        $post = Post::findOrFail($postId);
+        $post->delete();
+    }
+
+    // Method to delete multiple posts
+    public function deletePostsByIds(array $postIds): void
+    {
+        Post::whereIn('id', $postIds)->delete();
+    }
 }
