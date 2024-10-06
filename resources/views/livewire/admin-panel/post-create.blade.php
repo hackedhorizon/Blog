@@ -13,7 +13,7 @@
     ];
 @endphp
 
-<div class="w-full min-h-screen p-6 mx-auto my-4 rounded-lg shadow-md md:min-h-fit bg-surface-300">
+<div class="w-full min-h-screen p-6 mx-auto my-4 rounded-lg shadow-md md:min-h-fit bg-surface-200">
     <h2 class="mb-5 text-2xl font-semibold text-center">{{ __('posts.Create Article') }}</h2>
 
     <x-form wire:submit.prevent="createPost" class="space-y-6">

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Livewire\Posts;
+namespace Tests\Feature\Livewire\AdminPanel;
 
 use App\Livewire\Posts\Index;
 use App\Models\Post;
@@ -9,9 +9,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-class IndexTest extends TestCase
+class PostIndexTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Livewire::withoutLazyLoading();
+    }
 
     public function test_it_renders_the_component_successfully()
     {
@@ -20,7 +27,7 @@ class IndexTest extends TestCase
         $firstPostTitle = $posts->first()->title;
 
         Livewire::test(Index::class)
-            ->assertStatus(200) // Assuming Livewire doesn't return status code, can be omitted
+            ->assertStatus(200)
             ->assertSee($firstPostTitle);
     }
 
@@ -40,7 +47,7 @@ class IndexTest extends TestCase
         $posts = Post::factory()->count(30)->create(['is_featured' => true, 'is_published' => true]);
 
         Livewire::test(Index::class)
-            ->call('nextPage', 'article-page') // Set page to 2
+            ->call('nextPage', 'article-page')
             ->assertStatus(200);
     }
 
@@ -51,10 +58,10 @@ class IndexTest extends TestCase
         $firstPostTitle = $posts->first()->title;
 
         Livewire::test(Index::class)
-            ->set('search', 'search term') // Set initial search term
-            ->call('nextPage', 'article-page') // Update page
-            ->set('search', '') // Reset search term
-            ->assertSee($firstPostTitle); // Check if the first post is still visible
+            ->set('search', 'search term')
+            ->call('nextPage', 'article-page')
+            ->set('search', '')
+            ->assertSee($firstPostTitle);
     }
 
     public function test_it_uses_the_read_post_service_to_fetch_posts()
@@ -64,7 +71,7 @@ class IndexTest extends TestCase
         $firstPostTitle = $posts->first()->title;
 
         Livewire::test(Index::class)
-            ->assertSee($firstPostTitle); // Ensure it displays post titles as expected
+            ->assertSee($firstPostTitle);
     }
 
     public function test_it_renders_the_correct_pagination_view()
@@ -75,6 +82,6 @@ class IndexTest extends TestCase
         ]);
 
         Livewire::test(Index::class)
-            ->assertStatus(200); // If Livewire does not return status code, omit this line
+            ->assertStatus(200);
     }
 }

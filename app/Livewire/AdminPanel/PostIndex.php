@@ -30,11 +30,10 @@ class PostIndex extends Component
     #[Layout('components.layouts.admin')]
     public function render()
     {
-        // Use withAggregate to add `user_username` to the result set
         $posts = Post::query()
-            ->withAggregate('user', 'username') // This adds `user_username` as a column
+            ->withAggregate('user', 'username')
             ->where('posts.title', 'like', "%{$this->search}%")
-            ->orderBy($this->sortBy['column'], $this->sortBy['direction']) // Sorting by the aggregated column
+            ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
             ->paginate($this->perPage);
 
         return view('livewire.admin-panel.post-index', ['posts' => $posts]);
@@ -43,6 +42,11 @@ class PostIndex extends Component
     public function paginationView()
     {
         return 'components.pagination.links';
+    }
+
+    public function placeholder()
+    {
+        return view('livewire.placeholders.admin.edit-post-skeleton', ['param' => 'Latest']);
     }
 
     public function mount()
@@ -57,11 +61,6 @@ class PostIndex extends Component
         ];
 
         $this->sortBy = ['column' => 'created_at', 'direction' => 'desc'];
-    }
-
-    public function placeholder()
-    {
-        return view('livewire.placeholders.admin.edit-post-skeleton', ['param' => 'Latest']);
     }
 
     public function updatedSearch()
