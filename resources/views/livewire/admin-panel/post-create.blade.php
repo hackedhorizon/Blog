@@ -11,6 +11,12 @@
         'skin' => 'oxide-dark',
         'content_css' => 'dark',
     ];
+
+    $datepickerConfig = [
+        'dateFormat' => 'Y-m-d H:i',
+        'enableTime' => true,
+        'time_24hr' => true,
+    ];
 @endphp
 
 <div class="w-full min-h-screen p-6 mx-auto my-4 rounded-lg shadow-md md:min-h-fit bg-surface-200">
@@ -20,28 +26,24 @@
         <div class="space-y-4">
             <x-input label="{{ __('posts.Title') }}" wire:model.blur="title" placeholder="{{ __('posts.Title') }}"
                 clearable class="w-full" />
+
             <x-editor label="{{ __('posts.Content') }}" :config="$config" wire:model.defer="content"
                 class="w-full h-64 border rounded-lg" />
         </div>
 
-        <div class="grid grid-cols-1 gap-6 ">
+        <div>
+            {{ __('posts.Auto translate') }}
+        </div>
+
+        <div class="grid grid-cols-1 gap-6">
             <x-toggle label="{{ __('Featured') }}" wire:model.live="featured" />
-            <x-toggle label="{{ __('posts.Auto translate') }}" wire:model.live="autoTranslate" />
 
-            @if (!$autoTranslate)
-                <x-choices label="{{ __('posts.Select languages for translation') }}" wire:model="selectedLanguages"
-                    :options="$languages" option-label="label" multiple compact allow-all option-value="value" multiple />
-            @endif
+            <x-toggle label="{{ __('posts.Publish now') }}" wire:model.live="publishNow" />
 
-            <x-toggle label="{{ __('posts.Publish now') }}" wire:model.live="published" />
-
-            @if (!$published)
-                @php
-                    $config1 = ['dateFormat' => 'Y-m-d H:i', 'enableTime' => true, 'time_24hr' => true];
-                @endphp
-                <x-datepicker label="{{ __('posts.Publish at a specific time') }}" wire:model="publicationDate"
-                    icon="o-calendar" :config="$config1" />
-            @endif
+            @unless ($publishNow)
+                <x-datepicker label="{{ __('posts.Publish at a specific time') }}" wire:model.live="publicationDate"
+                    icon="o-calendar" :config="$datepickerConfig" />
+            @endunless
 
             <x-choices label="{{ __('posts.Select categories') }}" wire:model="selectedCategories" :options="$categories"
                 option-label="label" option-value="value" multiple compact allow-all />

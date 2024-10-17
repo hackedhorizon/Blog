@@ -22,9 +22,26 @@ class ReadPostRepository implements ReadPostRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getPaginatedPosts(int $numberOfPostsPerPage, string $pageName): LengthAwarePaginator
+    public function getPaginatedPosts(array $sortBy, string $search, int $perPage): LengthAwarePaginator
     {
-        return Post::with(['categories', 'user'])->where('is_published', true)->paginate($numberOfPostsPerPage, pageName: $pageName);
+        // Base query for posts with user aggregate
+        $query = Post::query()
+            ->withAggregate('user', 'username')
+            ->orderBy($sortBy['column'], $sortBy['direction']);
+
+        // Check if localization is enabled
+        if (config('services.should_have_localization') && $search) {
+            // If there's a search term, search via Algolia on the PostTranslation table
+            $postIds = PostTranslation::search($search)
+                ->get()
+                ->pluck('post_id');
+
+            // Apply filtering by the found post IDs
+            $query->whereIn('id', $postIds);
+        }
+
+        // Return the paginated result
+        return $query->paginate($perPage);
     }
 
     /**

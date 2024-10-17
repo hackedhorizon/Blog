@@ -16,29 +16,20 @@ class LocalizationService implements LocalizationServiceInterface
     use DeepltranslatorTrait;
 
     private WriteUserService $writeUserService;
-
     private ReadUserService $readUserService;
 
-    public function __construct(
-        WriteUserService $writeUserService,
-        ReadUserService $readUserService
-    ) {
+    public function __construct(WriteUserService $writeUserService, ReadUserService $readUserService)
+    {
         $this->writeUserService = $writeUserService;
         $this->readUserService = $readUserService;
     }
 
     public function updateCurrentlySelectedLanguage(?int $userId, string $language): bool
     {
-        // If the user logged in, update the user's language in the database
-        if ($userId !== null) {
-            return $this->writeUserService->updateUser($userId, [
-                'language' => $language,
-            ]);
+        if ($userId) {
+            return $this->writeUserService->updateUser($userId, ['language' => $language]);
         }
-
-        // Handle scenario where user is not logged in, store the language preference in session
         session()->put('locale', $language);
-
         return true;
     }
 
@@ -51,31 +42,24 @@ class LocalizationService implements LocalizationServiceInterface
 
     private function getUserLocale($userId): string
     {
-        $userLanguage = $this->readUserService->getUserProperty('language', $userId);
-
-        return $userLanguage ?? Config::get('app.locale');
+        return $this->readUserService->getUserProperty('language', $userId) ?? Config::get('app.locale');
     }
 
-    public function setAppLocale($locale): void
+    public function setAppLocale(string $locale): void
     {
         app()->setLocale($locale);
         session()->put('locale', $locale);
     }
 
-    public function translate($text, $from, $to): array
+    public function translate(string $text, string $from, array $to): array
     {
         try {
             $translated = $this->translateString($text, $from, $to);
-            if (! is_array($translated)) {
-                $translated = [];
-            }
+            return (is_array($translated) && !empty($translated)) ? $translated : [];
         } catch (\Throwable $th) {
             Log::error('Translation failed: '.$th->getMessage());
-
             return [];
         }
-
-        return $translated;
     }
 
     public function detectLanguage(string $text): ?string
@@ -88,13 +72,12 @@ class LocalizationService implements LocalizationServiceInterface
                 'target_lang' => 'EN',
             ]);
 
-            if ($response->successful() && isset($response->json()['translations'][0]['detected_source_language'])) {
-                return $response->json()['translations'][0]['detected_source_language'];
-            }
+            return $response->successful() && isset($response->json()['translations'][0]['detected_source_language'])
+                ? $response->json()['translations'][0]['detected_source_language']
+                : null;
         } catch (\Throwable $th) {
             Log::error('Error detecting language: '.$th->getMessage());
+            return null;
         }
-
-        return null;
     }
 }

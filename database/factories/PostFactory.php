@@ -25,6 +25,7 @@ class PostFactory extends Factory
             'body' => fake()->paragraph(),
             'is_published' => fake()->randomElement([false, true]),
             'is_featured' => fake()->randomElement([false, true]),
+            'published_at' => fake()->dateTimeThisMonth()
         ];
     }
 }

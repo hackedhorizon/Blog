@@ -38,14 +38,18 @@ class LatestTest extends TestCase
     public function it_displays_latest_posts()
     {
         // Create 3 users using Laravel's User factory
-        $users = User::factory()->count(3)->create();
+        $user = User::factory()->create();
 
         // Create 3 posts using Laravel's Post factory
         $posts = Post::factory()->count(3)->create([
+            'user_id' => $user->id,
             'is_published' => true,
         ]);
 
-        $post_translations = PostTranslation::factory()->count(50)->create();
+        foreach ($posts as $post) {
+            PostTranslation::factory()->english()->for($post)->create();
+            PostTranslation::factory()->hungarian()->for($post)->create();
+        }
 
         // Instantiate the Latest Livewire component and assert that it displays the titles of the first and last posts
         Livewire::test(Latest::class)

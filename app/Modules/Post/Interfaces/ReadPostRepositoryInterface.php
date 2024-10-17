@@ -5,7 +5,6 @@ namespace App\Modules\Post\Interfaces;
 use App\Models\Post;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Date;
 
 interface ReadPostRepositoryInterface
 {
@@ -20,19 +19,21 @@ interface ReadPostRepositoryInterface
     /**
      * Retrieves a paginated list of posts, including their associated categories and author.
      *
-     * @param  int  $numberOfPostsPerPage  The number of posts to display per page.
-     * @param  string  $pageName  The name of the query parameter for the page number.
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator A paginated collection of posts,
-     *                                                               with each post containing its associated categories and author.
+     * @param  array  $sortBy  Sorting parameters (column and direction).
+     * @param  string  $search  The search term for filtering posts.
+     * @param  int  $perPage  The number of posts to display per page.
+     * @return LengthAwarePaginator A paginated collection of posts,
+     *                              with each post containing its associated categories and author.
      *
      * @throws \InvalidArgumentException If the number of posts per page is less than 1.
      */
-    public function getPaginatedPosts(int $numberOfPostsPerPage, string $pageName): LengthAwarePaginator;
+    public function getPaginatedPosts(array $sortBy, string $search, int $perPage): LengthAwarePaginator;
 
     /**
      * Retrieves the last $numberOfPostsPerpage posts sorted by creation date in descending order.
      *
      * @param  int  $numberOfPostsPerPage  The number of posts to display on the page.
+     * @return Collection A collection of the latest posts.
      */
     public function getLatestPosts(int $numberOfPostsPerPage): Collection;
 
@@ -45,8 +46,6 @@ interface ReadPostRepositoryInterface
      * @param  int  $numberOfPostsPerPage  The number of posts to display per page.
      * @param  string  $pageName  The name of the page where the posts will be displayed.
      * @return LengthAwarePaginator A paginated collection of featured posts.
-     *                              The paginator object contains the posts, as well as additional information
-     *                              such as the total number of posts and the current page number.
      */
     public function getFeaturedPaginatedPosts(int $numberOfPostsPerPage, string $pageName): LengthAwarePaginator;
 
@@ -57,8 +56,7 @@ interface ReadPostRepositoryInterface
      * @param  string  $searchTerm  The term to search for in the posts.
      * @param  bool  $shouldHaveLocalization  Indicates whether the posts should have localization.
      * @param  int  $perPage  The number of posts to return per page.
-     * @return \Illuminate\Database\Eloquent\Collection|null A collection of posts that match the search criteria.
-     *                                                       If no posts are found, it returns null.
+     * @return LengthAwarePaginator|null A collection of posts that match the search criteria.
      */
     public function searchPosts(string $searchTerm, bool $shouldHaveLocalization, int $perPage): ?LengthAwarePaginator;
 
@@ -70,10 +68,7 @@ interface ReadPostRepositoryInterface
      * Retrieves a collection of posts associated with a specific category.
      *
      * @param  int  $categoryId  The unique identifier of the category.
-     * @return \Illuminate\Database\Eloquent\Collection A collection of posts associated with the given category.
-     *                                                  Each post in the collection will be eager-loaded with its associated categories and author.
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the category with the given ID does not exist.
+     * @return Collection A collection of posts associated with the given category.
      */
     public function getPostsByCategory(int $categoryId): Collection;
 
@@ -81,10 +76,7 @@ interface ReadPostRepositoryInterface
      * Retrieves a collection of posts associated with a specific author.
      *
      * @param  int  $authorId  The unique identifier of the author.
-     * @return \Illuminate\Database\Eloquent\Collection A collection of posts associated with the given author.
-     *                                                  Each post in the collection will be eager-loaded with its associated categories and author.
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the author with the given ID does not exist.
+     * @return Collection A collection of posts associated with the given author.
      */
     public function getPostsByAuthor(int $authorId): Collection;
 
@@ -93,10 +85,7 @@ interface ReadPostRepositoryInterface
      *
      * @param  string  $startDate  The start date of the range in 'YYYY-MM-DD' format.
      * @param  string  $endDate  The end date of the range in 'YYYY-MM-DD' format.
-     * @return \Illuminate\Database\Eloquent\Collection A collection of posts created within the given date range.
-     *                                                  Each post in the collection will be eager-loaded with its associated categories and author.
-     *
-     * @throws \InvalidArgumentException If the start date is after the end date.
+     * @return Collection A collection of posts created within the given date range.
      */
     public function getPostsByDateRange(string $startDate, string $endDate): Collection;
 
@@ -104,11 +93,7 @@ interface ReadPostRepositoryInterface
      * Retrieves a collection of related posts based on the given post's categories and author.
      *
      * @param  int  $postId  The unique identifier of the post.
-     * @return \Illuminate\Database\Eloquent\Collection A collection of related posts.
-     *                                                  Each post in the collection will be eager-loaded with its associated categories and author.
-     *                                                  The related posts are determined based on the categories and author of the given post.
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the post with the given ID does not exist.
+     * @return Collection A collection of related posts.
      */
     public function getRelatedPosts(int $postId): Collection;
 }

@@ -1,8 +1,9 @@
 @php
     $headers = [
         ['key' => 'user_username', 'label' => __('User'), 'class' => 'w-30 text-white'],
-        ['key' => 'title', 'label' => __('posts.Title'), 'class' => 'w-96 text-white'],
+        ['key' => 'title', 'label' => __('posts.Title'), 'class' => 'w-72 text-white'],
         ['key' => 'created_at', 'label' => __('Created At'), 'class' => 'text-white'],
+        ['key' => 'published_at', 'label' => __('Published At'), 'class' => 'text-white'],
     ];
 @endphp
 
@@ -31,11 +32,11 @@
 
     <!-- Current Page Info -->
     <div aria-live="polite" class="text-sm text-gray-600">
-        {{ __('Page') }} {{ $posts->currentPage() }} {{ __('of') }} {{ $posts->lastPage() }}
+        {{ __('Page') }} {{ $this->posts->currentPage() }} {{ __('of') }} {{ $this->posts->lastPage() }}
     </div>
 
     {{-- Posts table --}}
-    <x-table :headers="$headers" :rows="$posts" :sort-by="$sortBy" wire:model="selected" selectable
+    <x-table :headers="$headers" :rows="$this->posts" :sort-by="$sortBy" wire:model="selected" selectable
         link="{{ Route('posts') }}/{id}">
 
         @scope('cell_user_username', $post)
@@ -45,13 +46,17 @@
         @endscope
 
         @scope('cell_title', $post)
-            <div class="truncate max-w-96 ">
-                {{ $post->title }}
+            <div class="truncate max-w-64 ">
+                {{ $post->translated_title }}
             </div>
         @endscope
 
         @scope('cell_created_at', $post)
             {{ $post->created_at->format('Y-m-d') }}
+        @endscope
+
+        @scope('cell_published_at', $post)
+            {{ $post->published_at->format('Y-m-d') }}
         @endscope
 
         @scope('actions', $post)
@@ -67,6 +72,10 @@
         @endscope
     </x-table>
 
+    @if (count($this->posts) < 1)
+        <p>{{ __('posts.empty') }}</p>
+    @endif
+
     {{-- Delete Selected Posts Action Button --}}
     <div class="flex justify-end mt-4">
         <x-button label="{{ __('posts.Delete selected posts') }}" icon="o-trash" wire:click="delete()" spinner
@@ -76,6 +85,6 @@
 
     <!-- Pagination Links -->
     <div class="py-4" role="navigation" aria-label="{{ __('Pagination') }}">
-        {{ $posts->links(data: ['scrollTo' => false]) }}
+        {{ $this->posts->links(data: ['scrollTo' => false]) }}
     </div>
 </div>

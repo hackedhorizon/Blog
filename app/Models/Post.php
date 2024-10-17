@@ -16,6 +16,10 @@ class Post extends Model
 
     protected $fillable = ['user_id', 'title', 'body', 'is_published', 'published_at', 'is_featured'];
 
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
+
     // Relations
 
     public function translations(): HasMany

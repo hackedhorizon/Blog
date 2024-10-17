@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 class WritePostService implements WritePostServiceInterface
 {
     protected WritePostRepositoryInterface $writePostRepository;
-
     protected LocalizationServiceInterface $localizationService;
 
     public function __construct(
@@ -24,49 +23,56 @@ class WritePostService implements WritePostServiceInterface
 
     public function createPost(PostCreateDTO $postCreateDTO): void
     {
-        // Detect the language of the post's title
-        $detectedLanguage = strtolower($this->localizationService->detectLanguage($postCreateDTO->title));
-
-        if (! $detectedLanguage) {
-            throw new \Exception(__('posts.Language detection failed.'));
-        }
-
-        // Assign detected language to the DTO
-        $postCreateDTO->detectedLanguage = $detectedLanguage;
-
-        // Determine target languages for translation
-        $locales = config('app.locales');
-        $targetLanguages = $postCreateDTO->autoTranslate
-            ? array_diff(array_keys($locales), [$detectedLanguage])
-            : $postCreateDTO->selectedLanguages;
-
-        if (empty($targetLanguages)) {
-            Log::warning('No target languages found for translation.');
-
+        // Check if localization is enabled.
+        if (! config('services.should_have_localization')) {
+            $this->writePostRepository->savePost($postCreateDTO);
             return;
         }
 
-        // Generate translations for each target language
-        $translations = [];
-        foreach ($targetLanguages as $locale) {
-            $translations[$locale] = [
-                'title' => $this->localizationService->translate($postCreateDTO->title, $detectedLanguage, $locale),
-                'body' => $this->localizationService->translate($postCreateDTO->content, $detectedLanguage, $locale),
-            ];
+        // Detect the language of the post's title
+        $detectedLanguage = strtolower($this->localizationService->detectLanguage($postCreateDTO->title));
+
+        if (!$detectedLanguage) {
+            throw new \Exception(__('posts.Language detection failed.'));
         }
 
-        // Use the repository to save the post and its translations
+        $postCreateDTO->detectedLanguage = $detectedLanguage;
+
+        // Determine target languages for translation
+        $targetLanguages = array_keys(config('app.locales', []));
+
+        if (empty($targetLanguages)) {
+            throw new \Exception(__('posts.No target languages found for translation.'));
+        }
+
+        // Filter out the detected language from the target languages
+        $targetLanguages = array_filter($targetLanguages, fn($locale) => $locale !== $detectedLanguage);
+
+        $titleTranslations = $this->localizationService->translate($postCreateDTO->title, $detectedLanguage, $targetLanguages);
+        $contentTranslations = $this->localizationService->translate($postCreateDTO->content, $detectedLanguage, $targetLanguages);
+
+        // If the translation is empty in any case, we throw an exception
+        if (empty($titleTranslations) || empty($contentTranslations)) {
+            throw new \Exception('Translation failed.');
+        }
+
+        // Build the translations array
+        $translations = array_combine($targetLanguages, array_map(function ($locale) use ($titleTranslations, $contentTranslations) {
+            return [
+                'title' => $titleTranslations[$locale] ?? '',
+                'body' => $contentTranslations[$locale] ?? '',
+            ];
+        }, $targetLanguages));
+
         $this->writePostRepository->savePostAndTranslations($postCreateDTO, $translations);
     }
 
     public function deletePost(?int $postId = null, array $selected = []): void
     {
         if ($postId) {
-            // Single post deletion
             $this->writePostRepository->deletePostById($postId);
             Log::info("Post with ID {$postId} was deleted successfully.");
         } elseif (! empty($selected)) {
-            // Batch post deletion
             $this->writePostRepository->deletePostsByIds($selected);
             Log::info('Selected posts were deleted successfully: '.implode(', ', $selected));
         } else {

@@ -2,8 +2,9 @@
 
 namespace App\Livewire\AdminPanel;
 
-use App\Models\Post;
+use App\Modules\Post\Interfaces\ReadPostServiceInterface;
 use App\Modules\Post\Interfaces\WritePostServiceInterface;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
@@ -32,25 +33,26 @@ class PostIndex extends Component
 
     private WritePostServiceInterface $writePostService;
 
+    private ReadPostServiceInterface $readPostService;
+
     #[Layout('components.layouts.admin')]
     public function render()
     {
-        $posts = Post::query()
-            ->withAggregate('user', 'username')
-            ->where('posts.title', 'like', "%{$this->search}%")
-            ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
-            ->paginate($this->perPage);
-
-        return view('livewire.admin-panel.post-index', ['posts' => $posts]);
+        return view('livewire.admin-panel.post-index');
     }
 
-    public function boot(WritePostServiceInterface $writePostService)
+    public function boot(WritePostServiceInterface $writePostService, ReadPostServiceInterface $readPostService)
     {
         $this->writePostService = $writePostService;
+        $this->readPostService = $readPostService;
     }
 
     public function mount()
     {
+        if (! auth()->user() || ! auth()->user()->hasRole('admin')) {
+            abort(403);
+        }
+
         $this->search = '';
 
         $this->perPageOptions = [
@@ -76,6 +78,12 @@ class PostIndex extends Component
     public function updatedSearch()
     {
         $this->resetPage();
+    }
+
+    #[Computed()]
+    public function posts()
+    {
+        return $this->readPostService->getPaginatedPosts($this->sortBy, $this->search, $this->perPage);
     }
 
     public function updateSelected($selectedIds)

@@ -2,6 +2,7 @@
 
 namespace App\Modules\Post\Services;
 
+use App\Models\Post;
 use App\Modules\Post\DTOs\PostDTO;
 use App\Modules\Post\Interfaces\ReadPostServiceInterface;
 use App\Modules\Post\Repositories\ReadPostRepository;
@@ -24,9 +25,9 @@ class ReadPostService implements ReadPostServiceInterface
         return new PostDTO($post);
     }
 
-    public function getPaginatedPosts(int $numberOfPostsPerPage, string $pageName): LengthAwarePaginator
+    public function getPaginatedPosts(array $sortBy, string $search, int $perPage): LengthAwarePaginator
     {
-        return $this->readPostRepository->getPaginatedPosts($numberOfPostsPerPage, $pageName);
+        return $this->readPostRepository->getPaginatedPosts($sortBy, $search, $perPage);
     }
 
     public function getLatestPosts(int $numberOfPostsPerPage): Collection
@@ -53,17 +54,17 @@ class ReadPostService implements ReadPostServiceInterface
         return $this->readPostRepository->getPostsByCategory($categoryId);
     }
 
-    public function getPostsByAuthor(int $authorId): mixed
+    public function getPostsByAuthor(int $authorId): Collection
     {
         return $this->readPostRepository->getPostsByAuthor($authorId);
     }
 
-    public function getPostsByDateRange(string $startDate, string $endDate): mixed
+    public function getPostsByDateRange(string $startDate, string $endDate): Collection
     {
         return $this->readPostRepository->getPostsByDateRange($startDate, $endDate);
     }
 
-    public function getPostsByRelated(int $postId): mixed
+    public function getPostsByRelated(int $postId): Collection
     {
         return $this->readPostRepository->getRelatedPosts($postId);
     }

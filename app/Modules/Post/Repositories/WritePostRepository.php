@@ -9,8 +9,9 @@ use App\Modules\Post\Interfaces\WritePostRepositoryInterface;
 
 class WritePostRepository implements WritePostRepositoryInterface
 {
-    public function savePostAndTranslations(PostCreateDTO $postCreateDTO, array $translations): void
+    public function savePost(PostCreateDTO $postCreateDTO)
     {
+        // Create the main post
         $post = Post::create([
             'user_id' => auth()->id(),
             'title' => $postCreateDTO->title,
@@ -20,27 +21,50 @@ class WritePostRepository implements WritePostRepositoryInterface
             'is_featured' => $postCreateDTO->featured,
         ]);
 
-        PostTranslation::create([
-            'post_id' => $post->id,
-            'locale' => $postCreateDTO->detectedLanguage,
+        $this->attachCategories($post, $postCreateDTO->selectedCategories);
+    }
+
+    public function savePostAndTranslations(PostCreateDTO $postCreateDTO, array $translations): void
+    {
+        // Create the main post
+        $post = Post::create([
+            'user_id' => auth()->id(),
             'title' => $postCreateDTO->title,
             'body' => $postCreateDTO->content,
+            'is_published' => $postCreateDTO->published,
+            'published_at' => $postCreateDTO->publicationDate,
+            'is_featured' => $postCreateDTO->featured,
         ]);
 
-        foreach ($translations as $locale => $data) {
-            // Ensure title and body are strings (convert arrays to strings if necessary)
-            $title = is_array($data['title']) ? implode(' ', $data['title']) : $data['title'];
-            $body = is_array($data['body']) ? implode(' ', $data['body']) : $data['body'];
+        // Save the main post translation (detected language)
+        $this->saveTranslation($post->id, $postCreateDTO->detectedLanguage, $postCreateDTO->title, $postCreateDTO->content);
 
-            PostTranslation::create([
-                'post_id' => $post->id,
-                'locale' => $locale,
-                'title' => $title,
-                'body' => $body,
-            ]);
+        // Iterate through the translations for each locale
+        foreach ($translations as $locale => $data) {
+            $this->saveTranslation($post->id, $locale, $data['title'], $data['body']);
         }
 
-        $post->categories()->attach($postCreateDTO->selectedCategories);
+        // Attach selected categories to the post
+        $this->attachCategories($post, $postCreateDTO->selectedCategories);
+    }
+
+    // Method to save translations
+    private function saveTranslation(int $postId, string $locale, string $title, string $body): void
+    {
+        PostTranslation::create([
+            'post_id' => $postId,
+            'locale' => $locale,
+            'title' => (string) $title, // Ensures title is a string
+            'body' => (string) $body, // Ensures body is a string
+        ]);
+    }
+
+    // Method to attach categories to a post
+    private function attachCategories(Post $post, array $selectedCategories): void
+    {
+        if (! empty($selectedCategories)) {
+            $post->categories()->attach($selectedCategories);
+        }
     }
 
     // Method to delete a single post

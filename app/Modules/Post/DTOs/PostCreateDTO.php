@@ -14,7 +14,5 @@ class PostCreateDTO
         public bool $featured,
         public DateTime $publicationDate,
         public array $selectedCategories,
-        public bool $autoTranslate,
-        public array $selectedLanguages
     ) {}
 }

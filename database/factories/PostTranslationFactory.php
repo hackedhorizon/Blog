@@ -18,28 +18,41 @@ class PostTranslationFactory extends Factory
      */
     public function definition(): array
     {
+        // Default factory definition can remain empty or generic if needed
+        return [];
+    }
 
-        $languageCodes = array_keys(config('app.locales'));    // Fetch language codes from config
-        $languageCode = $languageCodes[array_rand($languageCodes)]; // Choose random language code
-        $posts = Post::pluck('id');                                        // Get all posts id's.
-
+    /**
+     * English translation state.
+     */
+    public function english(): Factory
+    {
         $faker_en = Faker::create('en_EN');
+
+        $posts = Post::pluck('id');
+
+        return $this->state(fn () => [
+            'post_id' => fake()->randomElement($posts),
+            'title' => $faker_en->realText(),
+            'body' => $faker_en->realText(),
+            'locale' => 'en',
+        ]);
+    }
+
+    /**
+     * Hungarian translation state.
+     */
+    public function hungarian(): Factory
+    {
         $faker_hu = Faker::create('hu_HU');
 
-        if ($languageCode === 'en') {
-            return [
-                'post_id' => fake()->randomElement($posts),
-                'locale' => $languageCode,
-                'title' => $faker_en->realText(),
-                'body' => $faker_en->realText(),
-            ];
-        }
+        $posts = Post::pluck('id');
 
-        return [
+        return $this->state(fn () => [
             'post_id' => fake()->randomElement($posts),
-            'locale' => $languageCode,
             'title' => $faker_hu->realText(),
             'body' => $faker_hu->realText(),
-        ];
+            'locale' => 'hu',
+        ]);
     }
 }

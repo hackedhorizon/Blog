@@ -3,7 +3,6 @@
 namespace App\Livewire\AdminPanel;
 
 use App\Modules\Categories\Interfaces\ReadCategoryServiceInterface;
-use App\Modules\Localization\Interfaces\LocalizationServiceInterface;
 use App\Modules\Post\DTOs\PostCreateDTO;
 use App\Modules\Post\Interfaces\WritePostServiceInterface;
 use DateTime;
@@ -26,25 +25,12 @@ class PostCreate extends Component
     public array $selectedCategories = [];
 
     public string $detectedLanguage = '';
-
     public bool $featured = false;
-
-    public bool $published = true;
-
-    public bool $autoTranslate = true;
-
+    public bool $publishNow = true;
     public DateTime $publicationDate;
-
-    public array $languages = [];
-
-    public array $selectedLanguages = [];
-
     public array $categories = [];
 
-    private LocalizationServiceInterface $localizationService;
-
     private ReadCategoryServiceInterface $readCategoryService;
-
     private WritePostServiceInterface $writePostService;
 
     #[Layout('components.layouts.admin')]
@@ -53,19 +39,23 @@ class PostCreate extends Component
         return view('livewire.admin-panel.post-create');
     }
 
-    public function boot(LocalizationServiceInterface $localizationService, ReadCategoryServiceInterface $readCategoryService, WritePostServiceInterface $writePostService)
+    public function boot(ReadCategoryServiceInterface $readCategoryService, WritePostServiceInterface $writePostService)
     {
-        $this->localizationService = $localizationService;
+        if (! auth()->user() || ! auth()->user()->hasRole('admin')) {
+            abort(403);
+        }
+
         $this->readCategoryService = $readCategoryService;
         $this->writePostService = $writePostService;
-        $this->publicationDate = now();
     }
 
     public function mount()
     {
-        $this->detectedLanguage = session()->get('locale');
-        $this->languages = collect(config('app.locales'))->map(fn ($label, $code) => ['value' => $code, 'label' => $label])->values()->toArray();
-        $this->categories = $this->readCategoryService->getCategories()->map(fn ($category) => ['label' => $category['name'], 'value' => $category['id']])->toArray();
+        $this->detectedLanguage = session()->get('locale', 'en');
+        $this->categories = $this->readCategoryService->getCategories()
+            ->map(fn($category) => ['label' => $category['name'], 'value' => $category['id']])
+            ->toArray();
+        $this->publicationDate = now();
     }
 
     public function createPost()
@@ -76,15 +66,17 @@ class PostCreate extends Component
             $this->title,
             $this->content,
             $this->detectedLanguage,
-            $this->published,
+            $this->publishNow,
             $this->featured,
             $this->publicationDate,
-            $this->selectedCategories,
-            $this->autoTranslate,
-            $this->selectedLanguages
+            $this->selectedCategories
         );
 
-        $this->writePostService->createPost($postCreateDTO);
-        $this->success(title: __('posts.Post created successfully'));
+        try {
+            $this->writePostService->createPost($postCreateDTO);
+            $this->success(title: __('posts.Post created successfully'));
+        } catch (\Exception $e) {
+            $this->error(title: $e->getMessage());
+        }
     }
 }

@@ -17,7 +17,7 @@ class CategoryPostSeeder extends Seeder
         $posts = Post::factory(20)->create();
 
         // Create 5 dummy categories
-        $categories = Category::factory(5)->create();
+        $categories = Category::factory(3)->create();
 
         // Add a category for each post in the database
         foreach ($posts as $post) {

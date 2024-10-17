@@ -6,6 +6,8 @@ use App\Modules\Post\DTOs\PostCreateDTO;
 
 interface WritePostRepositoryInterface
 {
+    public function savePost(PostCreateDTO $postCreateDTO);
+
     public function savePostAndTranslations(PostCreateDTO $postCreateDTO, array $translations): void;
 
     public function deletePostById(int $postId): void;
