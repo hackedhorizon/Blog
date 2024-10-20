@@ -62,10 +62,10 @@ class PostIndexTest extends TestCase
      */
     public function test_it_shows_paginated_posts_localization_disabled()
     {
+        config(['services.should_have_localization' => false]);
+
         $posts = Post::factory()->count(11)->create(['user_id' => $this->user->id]);
         $lastPostTitle = $posts->last()->title;
-
-        config(['services.should_have_localization' => false]);
 
         Livewire::actingAs($this->user)
             ->test(PostIndex::class)
