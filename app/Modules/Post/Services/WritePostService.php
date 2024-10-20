@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 class WritePostService implements WritePostServiceInterface
 {
     protected WritePostRepositoryInterface $writePostRepository;
+
     protected LocalizationServiceInterface $localizationService;
 
     public function __construct(
@@ -26,13 +27,14 @@ class WritePostService implements WritePostServiceInterface
         // Check if localization is enabled.
         if (! config('services.should_have_localization')) {
             $this->writePostRepository->savePost($postCreateDTO);
+
             return;
         }
 
         // Detect the language of the post's title
         $detectedLanguage = strtolower($this->localizationService->detectLanguage($postCreateDTO->title));
 
-        if (!$detectedLanguage) {
+        if (! $detectedLanguage) {
             throw new \Exception(__('posts.Language detection failed.'));
         }
 
@@ -46,7 +48,7 @@ class WritePostService implements WritePostServiceInterface
         }
 
         // Filter out the detected language from the target languages
-        $targetLanguages = array_filter($targetLanguages, fn($locale) => $locale !== $detectedLanguage);
+        $targetLanguages = array_filter($targetLanguages, fn ($locale) => $locale !== $detectedLanguage);
 
         $titleTranslations = $this->localizationService->translate($postCreateDTO->title, $detectedLanguage, $targetLanguages);
         $contentTranslations = $this->localizationService->translate($postCreateDTO->content, $detectedLanguage, $targetLanguages);

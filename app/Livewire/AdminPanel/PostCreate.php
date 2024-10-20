@@ -25,12 +25,17 @@ class PostCreate extends Component
     public array $selectedCategories = [];
 
     public string $detectedLanguage = '';
+
     public bool $featured = false;
+
     public bool $publishNow = true;
+
     public DateTime $publicationDate;
+
     public array $categories = [];
 
     private ReadCategoryServiceInterface $readCategoryService;
+
     private WritePostServiceInterface $writePostService;
 
     #[Layout('components.layouts.admin')]
@@ -53,7 +58,7 @@ class PostCreate extends Component
     {
         $this->detectedLanguage = session()->get('locale', 'en');
         $this->categories = $this->readCategoryService->getCategories()
-            ->map(fn($category) => ['label' => $category['name'], 'value' => $category['id']])
+            ->map(fn ($category) => ['label' => $category['name'], 'value' => $category['id']])
             ->toArray();
         $this->publicationDate = now();
     }

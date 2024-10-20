@@ -17,7 +17,9 @@ class PostCreateTest extends TestCase
     use RefreshDatabase;
 
     protected User $adminUser;
+
     protected User $nonAdminUser;
+
     protected array $categories;
 
     protected function setUp(): void

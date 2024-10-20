@@ -16,6 +16,7 @@ class LocalizationService implements LocalizationServiceInterface
     use DeepltranslatorTrait;
 
     private WriteUserService $writeUserService;
+
     private ReadUserService $readUserService;
 
     public function __construct(WriteUserService $writeUserService, ReadUserService $readUserService)
@@ -30,6 +31,7 @@ class LocalizationService implements LocalizationServiceInterface
             return $this->writeUserService->updateUser($userId, ['language' => $language]);
         }
         session()->put('locale', $language);
+
         return true;
     }
 
@@ -55,9 +57,11 @@ class LocalizationService implements LocalizationServiceInterface
     {
         try {
             $translated = $this->translateString($text, $from, $to);
-            return (is_array($translated) && !empty($translated)) ? $translated : [];
+
+            return (is_array($translated) && ! empty($translated)) ? $translated : [];
         } catch (\Throwable $th) {
             Log::error('Translation failed: '.$th->getMessage());
+
             return [];
         }
     }
@@ -77,6 +81,7 @@ class LocalizationService implements LocalizationServiceInterface
                 : null;
         } catch (\Throwable $th) {
             Log::error('Error detecting language: '.$th->getMessage());
+
             return null;
         }
     }
