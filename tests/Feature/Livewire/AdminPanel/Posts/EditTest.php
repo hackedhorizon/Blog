@@ -57,30 +57,30 @@ class EditTest extends TestCase
     /** @test */
     public function post_can_be_updated_successfully()
     {
-    // Seed roles and permissions
-    $this->seed([RoleSeeder::class, PermissionSeeder::class]);
+        // Seed roles and permissions
+        $this->seed([RoleSeeder::class, PermissionSeeder::class]);
 
-    // Create an admin user
-    $user = User::factory()->create()->assignRole('admin');
+        // Create an admin user
+        $user = User::factory()->create()->assignRole('admin');
 
-    // Create a post
-    $post = Post::factory()->create(['user_id' => $user->id]);
+        // Create a post
+        $post = Post::factory()->create(['user_id' => $user->id]);
 
-    // New post data
-    $newData = [
-        'title' => 'Updated Title',
-        'body' => 'Updated body content.',
-        'featured' => 1,
-    ];
+        // New post data
+        $newData = [
+            'title' => 'Updated Title',
+            'body' => 'Updated body content.',
+            'featured' => 1,
+        ];
 
-    // Act as the admin user, update post data, and submit the form
-    Livewire::actingAs($user)
-        ->test(Edit::class, ['post' => $post->id])
-        ->set('title', $newData['title'])
-        ->set('body', $newData['body'])
-        ->set('featured', $newData['featured'])
-        ->call('save')
-        ->assertDispatched('post-updated')
-        ->assertHasNoErrors();
+        // Act as the admin user, update post data, and submit the form
+        Livewire::actingAs($user)
+            ->test(Edit::class, ['post' => $post->id])
+            ->set('title', $newData['title'])
+            ->set('body', $newData['body'])
+            ->set('featured', $newData['featured'])
+            ->call('save')
+            ->assertDispatched('post-updated')
+            ->assertHasNoErrors();
     }
 }
