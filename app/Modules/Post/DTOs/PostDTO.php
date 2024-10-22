@@ -43,6 +43,11 @@ class PostDTO
         return $this->post->is_published;
     }
 
+    public function getPostIsFeatured(): bool
+    {
+        return $this->post->is_featured;
+    }
+
     public function life(): void
     {
         // "A bug is never just a mistake. It represents something bigger. An error of thinking that makes you who you are."

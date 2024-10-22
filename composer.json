@@ -32,7 +32,8 @@
         "robsontenorio/mary": "^1.30",
         "saade/blade-iconsax": "^1.2",
         "spatie/laravel-permission": "^6.9",
-        "tinymce/tinymce": "^7.3"
+        "tinymce/tinymce": "^7.3",
+        "wire-elements/modal": "^2.0"
     },
     "require-dev": {
         "brianium/paratest": "^7.4",

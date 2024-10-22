@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\AdminPanel;
+namespace App\Livewire\AdminPanel\Posts;
 
 use App\Modules\Post\Interfaces\ReadPostServiceInterface;
 use App\Modules\Post\Interfaces\WritePostServiceInterface;
@@ -13,7 +13,7 @@ use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 #[Lazy]
-class PostIndex extends Component
+class Index extends Component
 {
     use Toast;
     use WithPagination;
@@ -29,7 +29,7 @@ class PostIndex extends Component
 
     public $perPageOptions = [];
 
-    protected $listeners = ['postDeleted' => '$refresh'];
+    protected $listeners = ['postDeleted' => '$refresh', 'post-updated' => '$refresh'];
 
     private WritePostServiceInterface $writePostService;
 
@@ -38,7 +38,7 @@ class PostIndex extends Component
     #[Layout('components.layouts.admin')]
     public function render()
     {
-        return view('livewire.admin-panel.post-index');
+        return view('livewire.admin-panel.posts.index');
     }
 
     public function boot(WritePostServiceInterface $writePostService, ReadPostServiceInterface $readPostService)
@@ -49,7 +49,7 @@ class PostIndex extends Component
 
     public function mount()
     {
-        if (! auth()->user() || ! auth()->user()->hasRole('admin')) {
+        if (! auth()->user() || ! auth()->user()->can('view unpublished posts') || ! auth()->user()->hasRole('admin')) {
             abort(403);
         }
 

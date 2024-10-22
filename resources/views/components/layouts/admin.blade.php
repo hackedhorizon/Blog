@@ -31,7 +31,11 @@
     {{-- Default navigation --}}
     @livewire('features.navbar')
 
+    {{-- Admin dashboard mobile navigation --}}
     <x-admin.mobile-navbar />
+
+    {{-- Modal component --}}
+    @livewire('wire-elements-modal')
 
     {{-- Main content --}}
     <main class="w-full text-lime-main">
@@ -51,7 +55,6 @@
             </div>
         </div>
     </main>
-
 </body>
 
 </html>

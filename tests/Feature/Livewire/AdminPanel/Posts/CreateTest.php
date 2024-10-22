@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature\Livewire\AdminPanel;
+namespace Tests\Feature\Livewire\AdminPanel\Posts;
 
-use App\Livewire\AdminPanel\PostCreate;
+use App\Livewire\AdminPanel\Posts\Create;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-class PostCreateTest extends TestCase
+class CreateTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -45,7 +45,7 @@ class PostCreateTest extends TestCase
     public function test_it_renders_create_post_page_successfully_for_admin()
     {
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->assertStatus(200)
             ->assertSee(__('posts.Create Article'));
     }
@@ -56,7 +56,7 @@ class PostCreateTest extends TestCase
     public function test_it_does_not_render_create_post_page_for_non_admin()
     {
         Livewire::actingAs($this->nonAdminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->assertStatus(403);
     }
 
@@ -66,7 +66,7 @@ class PostCreateTest extends TestCase
     public function test_it_validates_required_fields()
     {
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->set('title', '')
             ->set('content', '')
             ->call('createPost')
@@ -79,7 +79,7 @@ class PostCreateTest extends TestCase
     public function test_it_validates_title_length()
     {
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->set('title', 'abc') // Less than 5 characters
             ->call('createPost')
             ->assertHasErrors(['title' => 'min']);
@@ -91,7 +91,7 @@ class PostCreateTest extends TestCase
     public function test_it_validates_content_length()
     {
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->set('content', 'ab') // Less than 3 characters
             ->call('createPost')
             ->assertHasErrors(['content' => 'min']);
@@ -103,7 +103,7 @@ class PostCreateTest extends TestCase
     public function test_it_creates_post_successfully()
     {
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->set('title', 'New Blog Post')
             ->set('content', 'This is the content of the blog post.')
             ->set('selectedCategories', [$this->categories[0]['id'], $this->categories[1]['id']])
@@ -134,7 +134,7 @@ class PostCreateTest extends TestCase
         $futureDate = now()->addDays(3)->format('Y-m-d H:i:s');
 
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->set('title', 'Scheduled Future Post')
             ->set('content', 'This post will be published in the future.')
             ->set('publishNow', false)
@@ -156,7 +156,7 @@ class PostCreateTest extends TestCase
     public function test_it_can_create_featured_post()
     {
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->set('title', 'Featured Post')
             ->set('content', 'This is a featured post.')
             ->set('publishNow', true)
@@ -177,7 +177,7 @@ class PostCreateTest extends TestCase
     public function test_it_does_not_create_post_without_author()
     {
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->set('title', 'Post without Author')
             ->set('content', 'This post should fail due to lack of author.')
             ->call('createPost');
@@ -193,7 +193,7 @@ class PostCreateTest extends TestCase
     public function test_it_can_select_and_attach_categories_to_post()
     {
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->set('title', 'Categorized Post')
             ->set('content', 'This post will have multiple categories.')
             ->set('selectedCategories', [$this->categories[0]['id'], $this->categories[1]['id']])
@@ -211,7 +211,7 @@ class PostCreateTest extends TestCase
         config(['services.should_have_localization' => false]);
 
         Livewire::actingAs($this->adminUser)
-            ->test(PostCreate::class)
+            ->test(Create::class)
             ->set('title', 'New Blog Post')
             ->set('content', 'This is the content of the blog post.')
             ->set('selectedCategories', [$this->categories[0]['id'], $this->categories[1]['id']])

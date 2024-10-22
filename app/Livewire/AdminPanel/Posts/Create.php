@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\AdminPanel;
+namespace App\Livewire\AdminPanel\Posts;
 
 use App\Modules\Categories\Interfaces\ReadCategoryServiceInterface;
 use App\Modules\Post\DTOs\PostCreateDTO;
@@ -11,7 +11,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-class PostCreate extends Component
+class Create extends Component
 {
     use Toast;
 
@@ -41,21 +41,21 @@ class PostCreate extends Component
     #[Layout('components.layouts.admin')]
     public function render()
     {
-        return view('livewire.admin-panel.post-create');
+        return view('livewire.admin-panel.posts.create');
     }
 
     public function boot(ReadCategoryServiceInterface $readCategoryService, WritePostServiceInterface $writePostService)
     {
-        if (! auth()->user() || ! auth()->user()->hasRole('admin')) {
-            abort(403);
-        }
-
         $this->readCategoryService = $readCategoryService;
         $this->writePostService = $writePostService;
     }
 
     public function mount()
     {
+        if (! auth()->user() || ! auth()->user()->can('create posts')) {
+            abort(403);
+        }
+
         $this->detectedLanguage = session()->get('locale', 'en');
         $this->categories = $this->readCategoryService->getCategories()
             ->map(fn ($category) => ['label' => $category['name'], 'value' => $category['id']])

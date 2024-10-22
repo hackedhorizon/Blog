@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Feature\Livewire\AdminPanel;
+namespace Tests\Feature\Livewire\AdminPanel\Posts;
 
-use App\Livewire\AdminPanel\PostIndex;
+use App\Livewire\AdminPanel\Posts\Index;
 use App\Models\Post;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-class PostIndexTest extends TestCase
+class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -34,12 +34,12 @@ class PostIndexTest extends TestCase
     }
 
     /**
-     * Test that the PostIndex component renders successfully.
+     * Test that the Index component renders successfully.
      */
     public function test_it_renders_successfully()
     {
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->assertStatus(200);
     }
 
@@ -52,7 +52,7 @@ class PostIndexTest extends TestCase
         $lastPostTitle = $posts->last()->title;
 
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->assertSee($lastPostTitle)
             ->assertStatus(200);
     }
@@ -64,11 +64,11 @@ class PostIndexTest extends TestCase
     {
         config(['services.should_have_localization' => false]);
 
-        $posts = Post::factory()->count(11)->create(['user_id' => $this->user->id]);
+        $posts = Post::factory()->count(10)->create(['user_id' => $this->user->id]);
         $lastPostTitle = $posts->last()->title;
 
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->assertSee($lastPostTitle)
             ->assertStatus(200);
     }
@@ -81,7 +81,7 @@ class PostIndexTest extends TestCase
         $post = Post::factory()->create(['user_id' => $this->user->id]);
 
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->call('delete', postId: $post->id)
             ->assertDontSee($post->title)
             ->assertDontSee($post->translated_title);
@@ -96,7 +96,7 @@ class PostIndexTest extends TestCase
         $selectedPosts = $posts->pluck('id')->toArray();
 
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->set('selected', $selectedPosts)
             ->assertSet('selected', $selectedPosts)
             ->call('delete', postId: null)
@@ -111,7 +111,7 @@ class PostIndexTest extends TestCase
         Post::factory()->count(15)->create(['user_id' => $this->user->id]);
 
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->set('perPage', 10)
             ->assertCount('posts', 10)
             ->set('perPage', 20)
@@ -126,7 +126,7 @@ class PostIndexTest extends TestCase
         Post::factory()->count(5)->create(['user_id' => $this->user->id]);
 
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->set('perPage', 20)
             ->set('sortBy', ['column' => 'created_at', 'direction' => 'desc'])
             ->assertSeeInOrder(Post::latest()->pluck('title')->toArray());
@@ -140,7 +140,7 @@ class PostIndexTest extends TestCase
         Post::factory()->count(5)->create(['user_id' => $this->user->id]);
 
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->set('perPage', 20)
             ->set('sortBy', ['column' => 'created_at', 'direction' => 'asc'])
             ->assertSeeInOrder(Post::oldest()->pluck('title')->toArray());
@@ -155,7 +155,7 @@ class PostIndexTest extends TestCase
         $selectedPostIds = $posts->pluck('id')->toArray();
 
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->call('updateSelected', $selectedPostIds)
             ->assertSet('selected', $selectedPostIds);
     }
@@ -166,7 +166,7 @@ class PostIndexTest extends TestCase
     public function test_it_initializes_with_default_values()
     {
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->assertSet('search', '')
             ->assertSet('perPage', 10)
             ->assertSet('sortBy', ['column' => 'created_at', 'direction' => 'desc']);
@@ -180,7 +180,7 @@ class PostIndexTest extends TestCase
         Post::query()->delete(); // Delete all posts to trigger the empty state
 
         Livewire::actingAs($this->user)
-            ->test(PostIndex::class)
+            ->test(Index::class)
             ->assertSee(__('posts.empty')); // Ensure the correct placeholder message is shown
     }
 }

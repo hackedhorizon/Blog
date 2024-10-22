@@ -1,8 +1,8 @@
 <?php
 
 use App\Livewire\AdminPanel\Dashboard;
-use App\Livewire\AdminPanel\PostCreate;
-use App\Livewire\AdminPanel\PostIndex;
+use App\Livewire\AdminPanel\Posts\Create;
+use App\Livewire\AdminPanel\Posts\Index as PostsIndex;
 use App\Livewire\Home;
 use App\Livewire\Posts\Index;
 use App\Livewire\Posts\Show;
@@ -34,8 +34,8 @@ Route::middleware(['auth', 'admin', 'translate'])->prefix('admin/dashboard')->gr
     Route::get('/', Dashboard::class)->name('admin.dashboard');
 
     // Post Management
-    Route::get('/posts/create', PostCreate::class)->name('admin.dashboard.posts.create');
-    Route::get('/posts/all', PostIndex::class)->name('admin.dashboard.posts.table');
+    Route::get('/posts/create', Create::class)->name('admin.dashboard.posts.create');
+    Route::get('/posts/all', PostsIndex::class)->name('admin.dashboard.posts.table');
 });
 
 require __DIR__.'/auth.php';

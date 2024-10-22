@@ -51,12 +51,10 @@ class WritePostRepository implements WritePostRepositoryInterface
     // Method to save translations
     private function saveTranslation(int $postId, string $locale, string $title, string $body): void
     {
-        PostTranslation::create([
-            'post_id' => $postId,
-            'locale' => $locale,
-            'title' => (string) $title, // Ensures title is a string
-            'body' => (string) $body, // Ensures body is a string
-        ]);
+        PostTranslation::updateOrCreate(
+            ['post_id' => $postId, 'locale' => $locale],
+            ['title' => (string) $title, 'body' => (string) $body]
+        );
     }
 
     // Method to attach categories to a post
@@ -65,6 +63,38 @@ class WritePostRepository implements WritePostRepositoryInterface
         if (! empty($selectedCategories)) {
             $post->categories()->attach($selectedCategories);
         }
+    }
+
+    public function updatePost(int $postId, array $data, array $categories, ?array $translations = null): void
+    {
+        // Update the main post
+        $post = Post::findOrFail($postId);
+
+        // Update existing translation
+        if (config('services.should_have_localization')) {
+            $this->saveTranslation($postId, $data['detectedLanguage'], $data['title'], $data['body']);
+        }
+
+        // Remove the 'detectedLanguage' from the data array since it's not a field
+        // in the model. It's only used for updating the original translation. This is
+        // necessary because we can't translate from a language into itself. However,
+        // if the post is modified, we still need to update the original translation.
+        // The detected source language is temporarily stored here to facilitate
+        // updating the existing translation before removing it from the data.
+        unset($data['detectedLanguage']);
+
+        // Update the post's other attributes
+        $post->update($data);
+
+        // Update translations if any
+        if (! empty($translations)) {
+            foreach ($translations as $locale => $content) {
+                $this->saveTranslation($postId, $locale, $content['title'], $content['body']);
+            }
+        }
+
+        // Update attached categories
+        $post->categories()->sync($categories);
     }
 
     // Method to delete a single post

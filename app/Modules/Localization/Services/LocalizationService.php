@@ -56,6 +56,7 @@ class LocalizationService implements LocalizationServiceInterface
     public function translate(string $text, string $from, array $to): array
     {
         try {
+
             $translated = $this->translateString($text, $from, $to);
 
             return (is_array($translated) && ! empty($translated)) ? $translated : [];

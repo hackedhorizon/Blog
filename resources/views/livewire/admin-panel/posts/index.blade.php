@@ -61,8 +61,9 @@
 
         @scope('actions', $post)
             <div class="flex gap-2">
-                <x-button icon="o-pencil" wire:click="edit({{ $post->id }})" spinner
-                    class="btn btn-sm btn-outline btn-info" aria-label="{{ __('Edit Post') }}"
+                <x-button icon="o-pencil"
+                    wire:click="$dispatch('openModal', { component: 'admin-panel.posts.edit', arguments: {post: {{ $post->id }}} })"
+                    spinner class="btn btn-sm btn-outline btn-info" aria-label="{{ __('Edit Post') }}"
                     tooltip="{{ __('Edit') }}" />
                 <x-button icon="o-trash" wire:click="delete({{ $post->id }})" spinner
                     class="btn btn-sm btn-outline btn-error" aria-label="{{ __('Delete Post') }}"
